@@ -1,0 +1,101 @@
+Student_ID,Age,Gender,Disability,Access Technology
+STU001,23,Male,Visual Impairment,Screen Reader
+STU002,20,Female,Hearing Impairment,Hearing Aid
+STU003,20,Other,Learning Disability,Text-to-Speech Software
+STU004,29,Male,Autism Spectrum Disorder,Communication App
+STU005,18,Male,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU006,30,Female,Intellectual Disability,Assistive Learning Tools
+STU007,30,Other,Mobility Impairment,Wheelchair
+STU008,22,Female,Visual Impairment,Screen Reader
+STU009,21,Male,Hearing Impairment,Hearing Aid
+STU010,20,Male,Learning Disability,Text-to-Speech Software
+STU011,18,Male,Autism Spectrum Disorder,Communication App
+STU012,27,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU013,23,Female,Intellectual Disability,Assistive Learning Tools
+STU014,29,Other,Mobility Impairment,Wheelchair
+STU015,29,Other,Visual Impairment,Screen Reader
+STU016,19,Female,Hearing Impairment,Hearing Aid
+STU017,28,Female,Learning Disability,Text-to-Speech Software
+STU018,28,Female,Autism Spectrum Disorder,Communication App
+STU019,26,Female,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU020,24,Female,Intellectual Disability,Assistive Learning Tools
+STU021,27,Female,Mobility Impairment,Wheelchair
+STU022,18,Female,Visual Impairment,Screen Reader
+STU023,28,Other,Hearing Impairment,Hearing Aid
+STU024,25,Female,Learning Disability,Text-to-Speech Software
+STU025,19,Other,Autism Spectrum Disorder,Communication App
+STU026,23,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU027,30,Female,Intellectual Disability,Assistive Learning Tools
+STU028,25,Male,Mobility Impairment,Wheelchair
+STU029,27,Male,Visual Impairment,Screen Reader
+STU030,29,Female,Hearing Impairment,Hearing Aid
+STU031,26,Male,Learning Disability,Text-to-Speech Software
+STU032,23,Female,Autism Spectrum Disorder,Communication App
+STU033,23,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU034,21,Male,Intellectual Disability,Assistive Learning Tools
+STU035,18,Female,Mobility Impairment,Wheelchair
+STU036,25,Male,Visual Impairment,Screen Reader
+STU037,21,Female,Hearing Impairment,Hearing Aid
+STU038,20,Female,Learning Disability,Text-to-Speech Software
+STU039,18,Female,Autism Spectrum Disorder,Communication App
+STU040,21,Female,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU041,29,Female,Intellectual Disability,Assistive Learning Tools
+STU042,27,Female,Mobility Impairment,Wheelchair
+STU043,21,Other,Visual Impairment,Screen Reader
+STU044,21,Female,Hearing Impairment,Hearing Aid
+STU045,19,Female,Learning Disability,Text-to-Speech Software
+STU046,25,Male,Autism Spectrum Disorder,Communication App
+STU047,18,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU048,23,Male,Intellectual Disability,Assistive Learning Tools
+STU049,21,Female,Mobility Impairment,Wheelchair
+STU050,30,Female,Visual Impairment,Screen Reader
+STU051,29,Other,Hearing Impairment,Hearing Aid
+STU052,19,Female,Learning Disability,Text-to-Speech Software
+STU053,30,Other,Autism Spectrum Disorder,Communication App
+STU054,28,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU055,19,Other,Intellectual Disability,Assistive Learning Tools
+STU056,20,Female,Mobility Impairment,Wheelchair
+STU057,25,Other,Visual Impairment,Screen Reader
+STU058,29,Male,Hearing Impairment,Hearing Aid
+STU059,28,Other,Learning Disability,Text-to-Speech Software
+STU060,20,Male,Autism Spectrum Disorder,Communication App
+STU061,30,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU062,30,Other,Intellectual Disability,Assistive Learning Tools
+STU063,22,Other,Mobility Impairment,Wheelchair
+STU064,26,Female,Visual Impairment,Screen Reader
+STU065,24,Male,Hearing Impairment,Hearing Aid
+STU066,29,Other,Learning Disability,Text-to-Speech Software
+STU067,21,Male,Autism Spectrum Disorder,Communication App
+STU068,30,Male,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU069,22,Other,Intellectual Disability,Assistive Learning Tools
+STU070,29,Other,Mobility Impairment,Wheelchair
+STU071,20,Other,Visual Impairment,Screen Reader
+STU072,21,Other,Hearing Impairment,Hearing Aid
+STU073,27,Female,Learning Disability,Text-to-Speech Software
+STU074,30,Male,Autism Spectrum Disorder,Communication App
+STU075,30,Male,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU076,30,Other,Intellectual Disability,Assistive Learning Tools
+STU077,25,Female,Mobility Impairment,Wheelchair
+STU078,25,Female,Visual Impairment,Screen Reader
+STU079,27,Other,Hearing Impairment,Hearing Aid
+STU080,29,Other,Learning Disability,Text-to-Speech Software
+STU081,24,Other,Autism Spectrum Disorder,Communication App
+STU082,27,Other,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU083,18,Other,Intellectual Disability,Assistive Learning Tools
+STU084,22,Male,Mobility Impairment,Wheelchair
+STU085,19,Male,Visual Impairment,Screen Reader
+STU086,26,Female,Hearing Impairment,Hearing Aid
+STU087,22,Other,Learning Disability,Text-to-Speech Software
+STU088,22,Male,Autism Spectrum Disorder,Communication App
+STU089,30,Male,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU090,20,Male,Intellectual Disability,Assistive Learning Tools
+STU091,27,Other,Mobility Impairment,Wheelchair
+STU092,24,Other,Visual Impairment,Screen Reader
+STU093,28,Other,Hearing Impairment,Hearing Aid
+STU094,24,Male,Learning Disability,Text-to-Speech Software
+STU095,18,Male,Autism Spectrum Disorder,Communication App
+STU096,25,Female,Speech Impairment,Augmentative and Alternative Communication (AAC) Device
+STU097,24,Male,Intellectual Disability,Assistive Learning Tools
+STU098,27,Female,Mobility Impairment,Wheelchair
+STU099,30,Male,Visual Impairment,Screen Reader
+STU100,26,Other,Hearing Impairment,Hearing Aid

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+
+    <!-- Required meta tags -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+
+    </script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+
+    <style>
+        #search {
+            background-color: white;
+            border: 0;
+            border-radius: 0.25rem;
+            color: rgba(128, 128, 128, 0.953);
+            padding: .4rem .4rem .1rem .4rem;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* .custom-table th {
+        } */
+
+        .custom-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .custom-table tr:hover {
+            background-color: #ddd;
+        }
+        #sd:hover{
+              /* color: bisque; */
+              background-color:rgb(213, 211, 211);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36); background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: relative; fixed; width: 100%;">
+        <div>
+            <h2 class="mr-2" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Students</h2>
+        </div>
+        <div style="margin-left: 85%; text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
+            <a href="{% url 'h' %}" class="text-white">
+                <span class="material-symbols-outlined">exit_to_app</span>
+            </a>
+        </div>
+    </nav>
+
+    {% block det %}
+    <!--
+    {% if searchs %}
+    <div class="card mb-5 " style="margin: 5px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    <th>Result</th>
+                    <th>Score</th>
+                    <th>Category</th>
+                    <th>Disability Type</th>
+                    <th>Access Technology</th>
+                </tr>
+            </thead>
+            {% for i in searchs %}
+            <tbody>
+                <tr>
+                    <td scope="row"></td>
+                    <td>{{i.student.std_id}}</td>
+                    <td>{{i.question}}</td>
+                    <td>{{i.answer}}</td>
+                    <td>{{i.answer.is_correct}}</td>
+                    <td>{{i.student.score}}</td>
+                    <td>{{i.student.category}}</td>
+                    <td>{{i.disability}}</td>
+                    <td>{{i.accesstechnology}}</td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+    -->
+    
+       <div class="row" style="width: 100%;padding: 30px;">
+            {% for i in data %}
+            <div class="card col-lg-2 " id="sd" style="padding: 25px;margin: 10px;">
+                <h2><a  style="padding: 10px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;text-decoration: none;color: black;" href="{% url 'sd' i.id %}">{{i.std_id}}</a></h2>
+            </div>
+            {% endfor %}
+        </div>
+    {% endblock det %}
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet Guessing Game</title>
+    <link rel="stylesheet" href="{% static 'css/soundstyle.css' %}">
+</head>
+<body>
+    <h4>Carefully hear the audio and guess the letter!!</h4>
+    <div class="bodyofGame">
+    <div id="game-container">
+        <div id="score">Score: <span id="score-value">0</span></div>
+        <button id="playButton">Play Sound</button>
+        <div id="letter-container"></div>
+        <div id="result"></div>
+    </div>
+</div>
+    <a href="{% url 'game' %}"><button class="btn"> Go to Home Page </button></a>
+    <script src="{% static 'js/soundscript.js' %}"></script>
+</body>
+</html>

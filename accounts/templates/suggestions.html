@@ -1,0 +1,98 @@
+<!-- suggestions.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Academic Performance Suggestions</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+
+</head>
+<body>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+    <div>
+        <h2 class="mr-2" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Academic Performance Suggestions</h2>
+    </div>
+    <div style="margin-left: 60%;text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'h' %}" class="text-white"><span class="material-symbols-outlined">
+        exit_to_app
+        </span></a></div>
+</nav>
+    <!-- <div class="container mt-3">
+        <table class="mt-3 table table-bordered table-hover">
+            <tr>
+                <th style="width: 33%;">
+                    <a href="{% url 'st' %}">
+                        <img src="{% static 'images/text.png' %}" alt="Text" class="img-fluid">
+                    </a>
+                </th>
+                <th style="width: 33%;">
+                    <a href="{% url 'sv' %}">
+                        <img src="{% static 'images/v.png' %}" alt="Video" class="img-fluid">
+                    </a>
+                </th>
+                <th style="width: 33%;">
+                    <a href="{% url 'sa' %}">
+                        <img src="{% static 'images/audio.png' %}" alt="Audio" class="img-fluid">
+                    </a>
+                </th>
+            </tr>
+        </table>
+    </div> -->
+        {% for i in data %}
+        <div class="mt-4 ml-2 mr-2">
+            <div class="card mb-3" >
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-1">{{ forloop.counter }}</div>
+                        <div class="col-1">{{ i.cat }}</div>
+                        {% if i.suggestion == none  %}
+                        {% else %}
+                           <div class="col">{{i.suggestion}}</div>
+                        {% endif %} 
+                        {% if i.video   %}
+                        <div class="col-2"><a href="{% url 'view_video' i.id %}">  <video  controls width="200" height="150">
+                        <source src="{% url 'view_video' i.id %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video></a></div>
+
+                        {% else %}
+                        {% endif %} 
+                          
+                       
+                        {% if i.audio  == none  %}
+                        {% else %}
+                           <div class="col-3"><audio controls>
+                            <source src="{% url 'play_audio' audio_id=i.id %}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio></div>
+                        {% endif %}   
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="{% url 'supd' i.id %}" class="btn btn-warning">
+                        Update
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="card-footer text-muted">
+            <a href="{% url 'sa'  %}" class="btn btn-info">
+                Audio Recording
+            </a>
+        </div>
+
+    <!-- Include jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

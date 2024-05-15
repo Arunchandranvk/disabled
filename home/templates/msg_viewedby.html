@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        h1{
+            font-family: 'Times New Roman', Times, serif;
+            padding: 10px;
+        }
+        .card {
+            padding: 20px;
+            box-shadow: 1px solid black;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: larger;
+         
+            background-color: rgb(248, 244, 240);
+        }
+
+    </style>
+</head>
+  <body>
+   <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36); background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: relative; fixed; width: 100%;">
+        <div>
+            <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Notes</h2>
+        </div>
+        <div style="margin-left: 78%; text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
+            <a href="{% url 'msg' %}" class="text-white">
+                <span class="material-symbols-outlined">exit_to_app</span>
+            </a>
+        </div>
+    </nav>
+ <div class="container mt-5">
+        <h1>Viewed Users</h1>
+        <div class="message-content">
+        
+            <!-- Display the message content here -->
+            {% for msg in msg %}
+            <div class="card">
+            <h4>{{ msg.user.username }}</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+   </body>
+</html>

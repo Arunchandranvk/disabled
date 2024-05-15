@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,200" />
+
+  </head>
+  <body >
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(160, 160, 198) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+    <div>
+        <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Change </h2>
+    </div>
+    <div>
+        <h2 class="mr-2 " style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" > Password</h2>
+    </div>
+     <div style="margin-left: 70%;">
+      <!-- <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}"  id="voiceLink" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
+        mic
+        </span> </a></h4> -->
+  </div>
+     <div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'sh' %}" class="text-white ml-3"><span class="material-symbols-outlined">
+exit_to_app
+</span></a></div>
+    </nav>
+   <div class=" mt-5">
+         <div class="card" style="border: none;" >
+            <form action="" target="side" method="post" >
+                {% csrf_token %}
+                <div class="row mr-2">
+                    <div class="col-3 text-center"> <label class="form-label" for="{{form.image.id_for_label}}">Current Pssword:</label></div>
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                          {{form.current_password.error}} 
+                          {{form.current_password}}
+                          </div>
+                    </div>
+                </div>   
+                <div class="row mr-2">
+                    <div class="col-3 text-center"> <label class="form-label" for="{{form.image.id_for_label}}">New Password :</label></div>
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                          {{form.new_password.error}} 
+                          {{form.new_password}}
+                          </div>
+                    </div>
+                </div>   
+                <div class="row mr-2">
+                    <div class="col-3 text-center"> <label class="form-label" for="{{form.image.id_for_label}}">Confirm Password :</label></div>
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                          {{form.confirm_password.error}} 
+                          {{form.confirm_password}}
+                          </div>
+                    </div>
+                </div>   
+                <div class=" text-center">
+                <div class="row mr-2">
+                  <div class="col"></div>
+                  <div class="col">                  
+                    <button class="btn btn-info btn-block">Submit</button>
+                  </div>
+                  <div class="col"></div>
+                </div>
+                </div>
+            </form>
+         </div>
+    </div>
+    <script>
+        function playWelcomeMessage() {
+        const welcomeMessage = new SpeechSynthesisUtterance('welcome Change Password');
+        window.speechSynthesis.speak(welcomeMessage);
+        }
+   playWelcomeMessage();
+    </script>
+    <script>
+      var recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.lang = 'en-US';
+      
+      recognition.onresult = function(event) {
+        var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        console.log("result",result);
+        var currentQuestionIndex=0;
+         if (result.includes('back to home')) {
+            // Redirect to the home page
+            window.location.href = '{% url "sh" %}';
+        }else if (result.includes('go to profile')) {
+            // Redirect to the home page
+            window.location.href = '{% url "pro" %}';
+        }
+        else if (result.includes('go to update profile')) {
+            // Redirect to the home page
+            window.location.href = '{% url "proupd" request.user.student_id.id %}';
+        }
+        else if (result.includes('go to exam')) {
+            // Redirect to the home page
+            window.location.href = '{% url "ansaudio" %}';
+        }
+        else if (result.includes('go to suggestions')) {
+            // Redirect to the home page
+            window.location.href = '{% url "sug" %}';
+        }
+        else if (result.includes('go to audio')) {
+            // Redirect to the home page
+            window.location.href = '{% url "audio" %}';
+        }
+        else if (result.includes('go to result')) {
+            // Redirect to the home page
+            window.location.href = '{% url "res" request.user.student_id.id %}';
+        }
+        else if (result.includes('logout')) {
+            // Redirect to the home page
+            window.location.href = '{% url "logout" %}';
+        }
+        else if (result.includes('go to changepassword')) {
+            // Redirect to the home page
+            window.location.href = '{% url "cp" %}';
+        }
+        else if (result.includes('go to games')) {
+            // Redirect to the home page
+            window.location.href = '{% url "game" %}';
+        }
+        else if (result.includes('go to explore more')) {
+            // Redirect to the home page
+            window.location.href = '{% url "noteview" request.user.student_id.id %}';
+        }
+      
+       
+    };
+     recognition.onerror = function(event) {
+          console.error('Speech recognition error:', event.error);
+      };
+    
+      recognition.onend = function() {
+          // Restart recognition when it ends
+          recognition.start();
+      };
+    
+      // Start speech recognition
+      recognition.start();
+        </script>
+  </body>
+</html>

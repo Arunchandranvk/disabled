@@ -1,0 +1,55 @@
+{% extends 'sugg.html' %}
+{% block sug %}
+
+
+{% for i in data %}
+        <div class="row ml-2 mt-2 mr-3"  >
+        <div class="col-3"></div>
+        <div class="col">
+            <div class="card ml-1 mt-1 mb-1" >
+                <div class="card-body font-weight-bold" >
+                    <h4>Listen it....</h4>
+                    <audio controls autoplay>
+                        <source src="{% url 'play_audioo' audio_id=i.id %}">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+        </div>
+            <div class="col-3"></div>
+        </div>
+        <script>
+         function playWelcomeMessage() {
+        const welcomeMessage = new SpeechSynthesisUtterance('welcome suggestions audio');
+        window.speechSynthesis.speak(welcomeMessage);
+        }
+   playWelcomeMessage();
+  var recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.lang = 'en-US';
+  
+  recognition.onresult = function(event) {
+    var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+    console.log("result",result);
+    var currentQuestionIndex=0;
+     if (result.includes('back to home')) {
+        // Redirect to the home page
+        window.location.href = '{% url "sh" %}';
+    }
+   
+};
+ recognition.onerror = function(event) {
+      console.error('Speech recognition error:', event.error);
+  };
+
+  recognition.onend = function() {
+      // Restart recognition when it ends
+      recognition.start();
+  };
+
+  // Start speech recognition
+  recognition.start();
+    </script>
+{% endfor %}
+           
+{% endblock sug %}

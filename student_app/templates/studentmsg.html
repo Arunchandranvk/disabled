@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+   <style>
+         #search {
+            background-color: white;
+            border: 0;
+            border-radius: 0.25rem;
+            color: rgba(128, 128, 128, 0.953);
+            padding: .4rem .4rem .1rem .4rem;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* .custom-table th {
+        } */
+
+        .custom-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .custom-table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+  <body>
+   <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36); background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: relative; fixed; width: 100%;">
+        <div>
+            <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Notes</h2>
+        </div>
+        <div style="margin-left: 68%; text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
+            <a href="{% url 'sh' %}" class="text-white">
+                <span class="material-symbols-outlined">exit_to_app</span>
+            </a>
+        </div>
+    </nav>
+    <h1  class="text-center  " >Messages</h1>
+    <div class="row" style="width:100%;">
+        <div class="col"></div>
+        <div class="col">
+                {% for i in data %}
+            <div class="card" style="padding: 30px ;margin: 50px 1px;">
+      
+
+        <p>{{i.msg}}</p>
+    
+
+        </div>
+            {% endfor %}
+        </div>
+        <div class="col"></div>
+    </div>
+    
+
+    
+  </body>
+</html>

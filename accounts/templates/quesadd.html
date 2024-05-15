@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Assign All Tests to All Students</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+  <div >
+      <h2 class=" ml-5 mr-2 mt-3" style=" letter-spacing: 2px;font-family:fantasy;" >Questions</h2>
+  </div>
+     <div  style="padding: 4px 15px 4px 1050px;border-radius: 0.5rem;" >
+            <h6><a class="btn btn-outline-dark" style=" text-decoration: none;color: white;" href="{% url 'qdel' %}">Text</a></h6>
+        </div>
+            {% comment %} <div  style="padding: 4px 15px 4px 15px;border-radius: 0.5rem;">
+            <h6><a class="btn btn-outline-dark" style="text-decoration: none;color: white;" href="{% url 'qimg' %}">Images</a></h6>
+        </div>
+            {% endcomment %}
+        <div  style="padding: 4px 15px 4px 15px;border-radius: 0.5rem;">
+            <h6><a class="btn btn-outline-dark" style=" text-decoration: none;color: white;" href="{% url 'qaudio' %}">Audio</a></h6>
+        </div>
+        <div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'h' %}" class="text-white"><span class="material-symbols-outlined">
+          exit_to_app
+          </span></a></div>
+    </nav>
+  {% block content %}
+    <div style="margin-left: 15%;">
+      <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="ml-5 mr-5 mt-5">
+           {{form.text.error}}
+           {{form.text}}
+          </div>
+          <div class="ml-5 mr-5 mt-5">
+           {{form.type.error}}
+           {{form.type}}
+          </div>
+           <div class="mt-2" style="margin-left: 35%;">
+              <button class="btn btn-success">Submit</button>
+           </div>
+      </form>
+   </div>
+    {% for test in tests%}
+    <div class="row mr-1 ml-5">            
+        <div class="col">
+        <div class="card" style="background-color: antiquewhite; padding: 10px;margin: 10px;font-weight: bold;font-size: large">        
+            {{forloop.counter}} . {{test.text}}
+       </div>           
+                </div>
+                <div class="col-1 mb-1" style=" padding: 8px;margin: 8px;">
+                          <!-- <a href="{% url 'qupd' test.id %}" ><button class="btn btn-warning" >Update</button></a>                     -->
+                          <a href="{% url 'dq' test.id %}" ><button class="btn btn-danger btn-block" >Delete</button></a>                    
+                                             
+                </div>       
+    </div>
+    {% endfor %}
+    <div class="text-center">
+
+      <a href="{% url 'qans' %}" ><button class="btn btn-info mb-3" >Upload Answers</button></a> 
+
+    </div>
+    {% endblock content %}
+  </body>
+</html>

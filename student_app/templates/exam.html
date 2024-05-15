@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,200" />
+
+ <style>
+/* Custom CSS styles */
+
+/* Card styles */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: rgba(150, 193, 252, 0.742);
+
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Text styles */
+.text-primary {
+  color: #007bff;
+}
+
+/* Alert styles */
+.alert {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* Button styles */
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #138496;
+}
+
+/* Additional styles */
+/* Add your custom styles here */
+
+  </style>
+</head>
+<body >
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: fixed; width: 100%;">
+    <div>
+      <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Questionnaire</h2>
+    </div>
+    <div style="margin-left: 70%;">
+      <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}"  style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
+        mic
+        </span> </a></h4>
+  </div>
+    <div style=" text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
+      <a href="{% url 'sh' %}" class="text-white ml-3">
+        <span class="material-symbols-outlined">
+          exit_to_app
+        </span>
+      </a>
+    </div>
+  </nav>
+  <div class="mx-0 mx-sm-auto">
+    <!-- <div class="card"> -->
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="far fa-file-alt fa-4x mb-3 text-primary"></i>
+          <p>
+            <strong>Select Your answers in the box given</strong>
+            {% if messages %}
+              {% for i in messages %}
+                {% if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{i}}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </p>
+        </div>
+        <hr/>
+       
+          
+                    <form method="post" action="{% url 'submit_exam' %}">
+                      {% for student_answer in student_answers %}   
+                      <div class="card" style="padding: 15px;">
+                  {% if student_answer.student.disability != "Visual Impairment"  %}
+                    {% if student_answer.question.type.names == "Text" %}
+                      {% csrf_token %}
+                    <p>{{ forloop.counter }} . {{ student_answer.question.text }}</p>
+                    {% if student_answer.question.files %}
+                      {% if student_answer.question.files.name|lower|slice:"-4:" == ".jpg" or student_answer.question.files.name|lower|slice:"-4:" == ".png" %}
+                        <img src="{{ student_answer.question.files.url }}" alt="Question Image" style="max-width: 100%; height: auto;">
+                      {% elif student_answer.question.files.name|lower|slice:"-4:" == ".mp3" %}
+                        <audio controls>
+                          <source src="{{ student_answer.question.files.url }}" type="audio/mpeg">
+                          Your browser does not support the audio element.
+                        </audio>
+                      {% else %}
+                        <p>File type not supported or unrecognized.</p>
+                      {% endif %}
+                    {% endif %}
+                    <ul>
+                      {% for answer in student_answer.question.answer_set.all %}
+                        <li class="mt-1">
+                          <label>
+                            <input type="radio" name="answer_{{ student_answer.id }}" value="{{ answer.id }}">
+                            {% if answer.text %}
+                              {{ answer.text }}
+                            {% endif %}
+                            {% if answer.fileans %}
+                              {% if answer.fileans.name|lower|slice:"-4:" == ".jpg" or answer.fileans.name|lower|slice:"-4:" == ".png" %}
+                                <img src="{{ answer.fileans.url }}" alt="Question Image" height="80px">
+                              {% elif answer.fileans.name|lower|slice:"-4:" == ".mp3" %}
+                                <audio controls>
+                                  <source src="{{ answer.fileans.url }}" type="audio/mpeg">
+                                  Your browser does not support the audio element.
+                                </audio>
+                              {% else %}
+                                <p>File type not supported or unrecognized.</p>
+                              {% endif %}
+                            {% endif %}
+                          </label>
+                        </li>
+                    
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endif %}
+                  </div>
+            {% endfor %}
+            {% if student_answers %}
+              <div class="row">
+                <div class="col-3"></div>
+                <div class="col"><input class="btn btn-info btn-block" type="submit" value="Submit Answer"></div>
+                <div class="col-4"></div>
+              </div>
+            {% else %}
+              <h4>No Exam Found!!!!!!!!!!</h4>
+            {% endif %}
+
+                    </form>
+                   
+       
+       
+      <!-- </div> -->
+    </div>
+  </div>
+
+  
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+ 
+  // Custom JavaScript/jQuery
+// Custom JavaScript/jQuery
+
+// Closing alerts
+$('.alert .close').on('click', function(){
+  $(this).parent().fadeOut();
+});
+
+// Handling form submission
+$('form').submit(function(e) {
+  e.preventDefault(); // Prevent the default form submission
+  
+  // Submit the form via AJAX
+  $.ajax({
+    type: $(this).attr('method'),
+    url: $(this).attr('action'),
+    data: $(this).serialize(), // Serialize form data
+    success: function(response) {
+      // Handle success response after form submission
+      // For example, display a success message or redirect
+    },
+    error: function(xhr, status, error) {
+      // Handle error response if submission fails
+      console.error('Form submission error:', error);
+    }
+  });
+});
+
+
+</script>
+</body>
+</html>

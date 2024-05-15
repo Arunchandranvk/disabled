@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Web Speech API script -->
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.js"
+  integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,200" /> -->
+<script src="https://unpkg.com/@kennethjiang/jsrsasign@10.1.0/ext/web-speech-api/js/web-speech-api.js"></script>
+ <script>
+  
+
+ </script>
+ <style>
+/* Custom CSS styles */
+
+/* Card styles */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: rgba(150, 193, 252, 0.742);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Text styles */
+.text-primary {
+  color: #007bff;
+}
+
+/* Alert styles */
+.alert {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* Button styles */
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #138496;
+}
+
+/* Additional styles */
+/* Add your custom styles here */
+
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: fixed; width: 100%;">
+    <div>
+      <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Questionnaire</h2>
+    </div>
+    <div style="margin-left: 72%;">
+      <!-- <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}"  style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
+        mic
+        </span> </a></h4> -->
+  </div>
+    <div style=" text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
+
+    </div>
+  </nav>
+  <div class="mx-0 mx-sm-auto mt-4">
+    <!-- <div class="card"> -->
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="far fa-file-alt fa-4x mb-3 text-primary"></i>
+          <p>
+            <strong>Select Your answers in the box given</strong>
+            {% if messages %}
+              {% for i in messages %}
+                {% if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{i}}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </p>
+        </div>
+        <hr>
+        
+       
+          
+          <form method="post" action="{% url 'submit_examaudio' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for student_answer in student_answers %}
+      <div class="card" style="padding: 15px;">
+          {% if student_answer.student.disability == "Visual Impairment" %}
+              {% if student_answer.question.type.names == "Audio" %}
+                  {% if student_answer.question.files %}
+                      {{ forloop.counter }} . 
+                      <audio id="questionAudio{{ forloop.counter }}" controls>
+                          <source src="{{ student_answer.question.files.url }}" type="audio/mpeg">
+                          Your browser does not support the audio element.
+                      </audio>
+                  {% endif %}
+
+                <ul>
+                    {% for answer in ans %}
+                        {% if answer.question == student_answer.question %}
+                            <li class="mt-1">
+                                <label>
+                                  <input  type="radio" name="answer_{{ student_answer.id }}" id="answer_{{ forloop.counter }}" value="{{ answer.id }}">
+                                  {% if answer.fileans %}
+                                        <audio id="answerAudio{{ answer.id }}" controls>
+                                            <source src="{{ answer.fileans.url }}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    {% endif %}
+                                </label>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+    <hr><br>
+{% endfor %}
+        
+    {% if student_answers %}
+              <div class="row mt-5">
+                <div class="col-3"></div>
+                <div class="col"><button type="submit" class="btn btn-info btn-block">Submit Answer</button></div>
+                <div class="col-4"></div>
+              </div>
+            {% else %}
+              <h4>No Exam Found!!!!!!!!!!</h4>
+            {% endif %}
+           
+            </form>
+             
+           
+       
+        
+      <!-- </div> -->
+    </div>
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.js"
+  integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk="
+  crossorigin="anonymous"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+  var speechSynthesisUtterance
+       function playWelcomeMessage() {
+        const count= {{count}}
+        console.log(count)
+        const welcomeMessage = new SpeechSynthesisUtterance(`Welcome  Exam . There is ${count} questions  . do it well , good luck`);
+        window.speechSynthesis.speak(welcomeMessage);
+        }
+   playWelcomeMessage();
+
+  function stopVoice() {
+      if (speechSynthesisUtterance && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+window.onbeforeunload = function() {
+      stopVoice();
+    };
+  // Get the audio elements by ID
+  var radioButtons;
+
+// Other global variables...
+  var questionAudios;
+  var answerSets;
+  var questionAudios = [
+      {% for student_answer in student_answers %}
+          document.getElementById('questionAudio{{ forloop.counter }}'),
+      {% endfor %}
+  ];
+
+  var answerSets = [
+      {% for student_answer in student_answers %}
+          [
+              {% for answer in ans %}
+                  {% if answer.question == student_answer.question %}
+                      document.getElementById('answerAudio{{ answer.id }}'),
+                  {% endif %}
+              {% endfor %}
+          ],
+      {% endfor %}
+  ];
+
+  // Start playing questions and answers
+  // playNext(0);
+
+  // Initialize speech recognition
+  var recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.lang = 'en-US';
+  
+  recognition.onresult = function(event) {
+    var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+    console.log("result",result);
+    var currentQuestionIndex=0;
+     if (result.includes('back to home')) {
+        // Redirect to the home page
+        window.location.href = '{% url "sh" %}';
+    }
+    else if (result.includes('start')||result.includes('question 1')) {
+        // Start playing questions and answers
+        playNext(0);
+    } else if (result.includes('question 2')) {
+
+        playNext(1);
+    } else if (result.includes('question 3')) {
+        // Start playing questions and answers
+        playNext(2);
+    } else if (result.includes('question 4')) {
+        // Start playing questions and answers
+        playNext(3);
+    } else if (result.includes('question 5')) {
+        // Start playing questions and answers
+        playNext(4);
+    } else if (result.includes('question 6')) {
+        // Start playing questions and answers
+        playNext(5);
+    } else if (result.includes('question 7')) {
+  
+        playNext(6);
+    } else if (result.includes('question 8')) {
+        // Start playing questions and answers
+        playNext(7);
+    } else if (result.includes('question 9')) {
+        // Start playing questions and answers
+        playNext(8);
+    } else if (result.includes('question 10')) {
+        // Start playing questions and answers
+        playNext(9);
+
+    } else if (result.includes('submit')) {
+        // Submit the answers
+        submitForm();
+    } else if (result.includes('option')) {
+    // Example: If the user says "option 1", "option 2", etc.
+    console.log(result);
+
+    if(result.includes('option a')){
+      result="option 1";
+    }else if (result.includes('option b')){
+      result="option 2";
+    }else if (result.includes('option c')){
+      result="option 3";
+    }
+    else if (result.includes('option d')){
+      result="option 4";
+    }
+    
+      var optionNumberMatch = result.match(/\d+/);
+
+      if (optionNumberMatch) {
+          var optionNumber = parseInt(optionNumberMatch[0]);
+          console.log('========', optionNumber);
+          console.log('_________', currentQuestionIndex);
+          selectAnswer(optionNumber, currentQuestionIndex);
+      } else {
+
+          console.log('Option number not recognized in the result:', result);
+      }
+    } 
+   
+    
+    else if (result.includes('select') && result.includes('option')) {
+        // Handle other variations of selecting options
+        // You may customize this based on your expected voice commands
+        selectAnswerFromVoiceCommand(result);
+    } 
+};
+
+
+  recognition.onerror = function(event) {
+      console.error('Speech recognition error:', event.error);
+  };
+
+  recognition.onend = function() {
+      // Restart recognition when it ends
+      recognition.start();
+  };
+
+  // Start speech recognition
+  recognition.start();
+
+console.log(currentQuestionIndex)
+var questionAudios;
+var answerSets;
+var radioButtons;  
+
+
+  async function playNext(index) {
+    if (index < questionAudios.length) {
+        await playAudio(questionAudios[index]);
+        await playAnswers(answerSets[index], index);
+        // Introduce a 10-second delay before playing the next question
+        // setTimeout(function () {
+        //     playNext(index );
+        // }, 10000); // 10000 milliseconds = 10 seconds
+    }
+}
+
+// var currentQuestionIndex = 0;
+
+async function playAnswers(answers, questionIndex) {
+    // Set current question index globally
+    currentQuestionIndex = questionIndex;
+
+    // Set radioButtons globally
+    radioButtons = document.querySelectorAll('input[id^="answer_' + questionIndex + '"]');
+
+    // Log the current question index, answerSet, and radioButtons for debugging
+    console.log('Playing answers for question:', questionIndex);
+    console.log('Answer Set:', answers);
+    console.log('Radio Buttons:', radioButtons);
+    radioButtons = document.querySelectorAll('input[id^="answer_"]');
+      for (let i = 0; i < answers.length; i++) {
+          await playAudio(answers[i]);
+          
+
+      }
+  }
+
+
+
+
+  async function playAudio(audioElement, optionNumber) {
+    return new Promise((resolve) => {
+        audioElement.play();
+        audioElement.addEventListener('ended', function onEnded() {
+            audioElement.removeEventListener('ended', onEnded);
+            resolve();
+        });
+    });
+}
+
+function submitForm() {
+    // Log a message to indicate form submission
+    console.log('Submitting form...');
+
+    // Trigger the form submission
+    $('form').submit();
+  }
+
+async function selectAnswer(optionNumber) {
+    // Log the optionNumber and current question index to debug
+    console.log('Selecting answer:', optionNumber, 'for question:', currentQuestionIndex);
+
+    // Get the answer set for the current question
+    var answerSet = answerSets[currentQuestionIndex];
+
+    // Log the answerSet for debugging
+    console.log('Answer Set:', answerSet);
+
+    // Check if the answerSet array has the specified index
+    if (answerSet && answerSet.length >= optionNumber) {
+        // Play the audio associated with the selected answer
+        await playAudio(answerSet[optionNumber - 1], optionNumber);
+        var red_btn = document.querySelectorAll('input[id^="answer_"]');
+
+        console.log('optionnumm',optionNumber);
+        var btn= (answerSet.length*currentQuestionIndex+optionNumber-1)
+        red_btn[btn].click()
+
+        
+    } else {
+        console.error('Answer element not found for option:', optionNumber, 'in question:', currentQuestionIndex);
+    }
+
+// // function selectAnswer(optionNumber) {
+// //     // Log the optionNumber to debug
+//     console.log('Selecting answer:', optionNumber);
+
+//     // Get all radio buttons with the specified name attribute
+//     var red_btn = document.querySelectorAll('input[id^="answer_"]');
+//         red_btn[optionNumber-1].click();
+    
+    
+    
+//     // Check if the radioButtons array has the specified index
+//     if (radioButtons.length >= optionNumber) {
+//         // Simulate a click on the radio button at the specified index
+  
+//         radioButtons[optionNumber - 1].click();
+//     } else {
+//         console.error('Radio element not found for option:', optionNumber);
+//     }
+}
+
+function test(selected_ans,question){
+  
+}
+
+</script>
+
+
+</body>
+</html>

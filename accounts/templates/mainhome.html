@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Disabled</title>
+    {% load static %}
+    <!-- <link rel="icon" type="image/icon type" href="https://www.bartehrman.com/wp-content/uploads/Bart-Ehrman-Website-Favicon.png"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A short tribute to the work of Bart Ehrman">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+
+  <script>
+    function playWelcomeMessage() {
+      var welcomeMessage = new SpeechSynthesisUtterance('Welcome to Educational Website For Differently Abled Students');
+      window.speechSynthesis.speak(welcomeMessage);
+      }
+  </script>
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+  * {scroll-behavior: smooth;}
+}
+
+/* * {
+  box-sizing: border-box;
+} */
+
+
+/* html {
+  font-size: 62.5%;
+} */
+
+/* main{
+  background: url(https://cdn.pixabay.com/photo/2015/12/03/08/50/paper-1074131_1280.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+} */
+
+header{
+  width: 100%;
+  height: 70px;
+  /* margin-top: 0;
+  margin-left: 0;
+  margin-right: 0; */
+  /* padding-top: 2px; */
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);}
+
+nav {
+  width: 100%;
+  height: 60px;
+  margin: 0;
+  display: block;
+  /* padding-top: 1px; */
+
+}
+
+ul[id=nav] {
+  display: flex;
+  justify-content: space-around;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bolder;
+}
+
+ul#nav > li {
+  display: inline-block;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 2.4rem;
+  text-align:center;
+}
+
+#youtube-icon {
+  width: 27px;
+  height: 18px;
+}
+
+h1 {
+  width: 100%;
+  height: 80px;
+  margin: 0 0 0 0;
+  text-align: center;
+  font-size: 3.4rem;
+  font-family: cursive;
+}
+
+#logo {
+  height: 80px;
+  width: 240px;
+}
+
+div[id=img-div] {
+  display:flex;
+  justify-content: space-evenly;
+}
+
+.img-1 {
+  width: 320px;
+  height: 300px;
+  object-fit:cover;
+  object-position: 50% 50%;
+  margin-top: 3%;
+}
+
+.img-2 {
+  width: 320px;
+  height: 300px;
+  margin-top: 3%;
+}
+
+.img-3 {
+  width: 432px;
+  height: 300px;
+  margin-top: 3%;
+}
+
+h2 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 2.2rem;
+  text-align: center;
+}
+
+h2 {
+  max-width: 80%;
+  margin: 40px auto 30px;
+}
+
+p {
+  max-width: 90%;
+  margin: 30px auto;
+  font-weight: larger;
+}
+
+a[id=return-to-top] {
+  text-decoration: none;
+  color: black;
+}
+
+hr {
+  height: 3px;
+  width: 90%;
+  margin: 100px auto;
+}
+
+.p-courses {
+  margin-bottom: 130px;
+}
+
+#courses-gallery {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+#courses-gallery img{
+  width: 100%;
+  max-width: 472px;
+  height: 355px;
+  object-fit: cover;
+}
+
+
+#blog-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+#blog-gallery img {
+  width: 100%;
+  max-width: 600px;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Library Background; insert Div with ID of selector below */
+
+#books-bg {
+  background-image: url(https://wallpaperaccess.com/full/5487854.jpg);
+  opacity: 0.6;
+  filter: brightness(1.4);
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+  width: 100%;
+  height: 800px;
+  margin-top: 40px;
+  transform: translate(0%, -50%);
+  z-index: 3;
+
+}
+
+#books-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 80%;
+}
+
+
+#books-gallery img {
+  width: 100%;
+  max-width: 175px;
+  height: 300px;
+  object-fit: cover;
+}
+
+#podcast-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10rem;
+  max-width: 1000px;
+  margin: 50px auto;
+  width: 75%;
+}
+
+#podcast-gallery img {
+  width: 100%;
+  max-width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+
+h3 {
+  font-size: 2rem;
+  width: 90%;
+  margin: 30px auto;
+}
+
+ul#podcast-list {
+  width: 90%;
+  margin: auto;
+}
+
+ul#podcast-list > li {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+#podcast-info {
+  width: 800px;
+  margin: auto;
+  border-top: 6px double black;
+}
+
+button {
+  margin: auto;
+  height: 45px;
+  width: 150px;
+  background-color: rgb(172, 103, 43);
+  display: block;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+
+a[id=button] {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+footer {
+  font-size: 1.5rem;
+  text-align: center;
+}
+nav div #bt{
+    background-color: white;
+}
+nav div #bt:hover{
+    background-color: rgba(245, 245, 245, 0.855);
+}
+div #main{
+  background-image: "{% static 'images/bg1.jpg' %}";
+}
+@media (max-width: 765px) {
+    .navbar-header {
+        flex: 1;
+    }
+    .navbar-header h2 {
+        margin: 0;
+    }
+    .navbar-light .navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    .navbar-light .navbar-toggler:hover,
+    .navbar-light .navbar-toggler:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .navbar-light .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/></svg>");
+    }
+}
+  </style>
+  </head>
+  <body onload="playWelcomeMessage()">
+    {% load static %}
+    <main>
+      <header class="sticky-top container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);width: 100%;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <h2 class="mr-2 ml-5 text-white" style="text-align: left; letter-spacing: 2px;font-family:fantasy;">BeyondBarriers</h2>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <h3 id="bt" class="mr-1 ml-4 btn nav-link" style="font-family:fantasy;">
+                        <a href="http://127.0.0.1:8000/admin/" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Admin</a>
+                    </h3>
+                </li>
+                <li class="nav-item">
+                    <h3 id="bt" class="mr-1 ml-4 btn nav-link" style="font-family:fantasy;">
+                        <a href="{% url 'login' %}" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Faculty</a>
+                    </h3>
+                </li>
+                <li class="nav-item">
+                    <h3 id="bt" class="mr-1 ml-4 btn nav-link" style="font-family:fantasy;">
+                        <a onclick="log()" href="{% url 'login' %}" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Student</a>
+                    </h3>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+        <!-- <h1><img id="logo" src="https://www.bartehrman.com/wp-content/uploads/Bart-Ehrman-Logo-Higher-Resolution-Transparent.png"></h1> -->
+      </header> 
+      
+      <div class="card" id="main"  style="padding:5px 13px 13px 13px;margin: 2% 5% 5% 5%;background-color: whitesmoke;box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
+       <h1>BeyondBarriers</h1>
+        <section class="ml-1  "  >
+  
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"  width="200px">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+          </ol>
+          
+          <div class="carousel-inner" style="height: 400px;">
+            <div class="carousel-item active">
+              <img class="d-block w-40" onclick="playWelcomeMessage()" src="{% static 'images/1adpri.png' %}" alt="First slide" style="margin-left: 25%;height: 350px;margin-top: 20px;">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-40" onclick="playWelcomeMessage()" src="{% static 'images/2ad.jpg' %}" alt="Second slide" style="margin-left: 27%;height: 350px;margin-top: 20px;">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-40" onclick="playWelcomeMessage()" src="{% static 'images/3ad.jpg' %}" alt="Third slide" style="margin-left: 22%;height: 350px;margin-top: 20px;">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-40" onclick="playWelcomeMessage()" src="{% static 'images/4ad.jpg' %}" alt="Third slide" style="margin-left: 33%;height: 350px;margin-top: 20px;">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-40" onclick="playWelcomeMessage()" src="{% static 'images/5ad.jpg' %}" alt="Third slide" style="margin-left: 25%;height: 350px;margin-top: 20px;">
+            </div>
+            <!-- <div class="carousel-item">
+              <img class="d-block w-40" src="{% static 'images/ad5.webp' %}" alt="Third slide" style="margin-left: 20%;height: 450px;margin-top: 50px;">
+            </div> -->
+          
+          </div>
+          
+          <a class="carousel-control-prev " href="#carouselExampleIndicators"  role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
+            <span class="sr-only" >Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>     
+        </section>
+   
+        <div >
+            <!-- <h2>Disablity</h2> -->
+            <p>Disability is not a limit but a unique perspective that empowers resilience and strength. Embracing diversity in abilities fosters a world rich in varied experiences and boundless possibilities. Challenges become catalysts for creativity, determination, and the triumph of the human spirit. In every obstacle lies an opportunity to redefine boundaries and illuminate the path toward inclusivity.
+
+                Within every individual, regardless of ability, resides a powerful force capable of reshaping narratives and inspiring profound change. The essence of humanity thrives in our differences, creating a tapestry of resilience woven with courage, adaptability, and unwavering determination. Let's celebrate the beauty of diversity, recognizing that every journey, irrespective of its hurdles, carries within it the seeds of remarkable strength and inspiration.</p>
+            <p >December 3 is declared as the International Day of Disability by the United Nations. It is a day to acknowledge the issues faced by persons with disabilities (PwD) around the world. The day aims to develop awareness among people to support these people live with dignity, equal rights and respect.
+    
+                In today's world, disability is not considered as a state of inability. Even the most successful scientist of modern era, Stephen Hawking, has disabilities. This day aims to inculcate a sense of compassion among all human beings on Earth. On this day, we celebrate the lives of persons with disabilities and salute their determination.</p>
+          </div>
+        </div>
+      <hr>
+      <div id="bio">
+        <h2>STEPHEN HAWKING</h2>
+        <p id="tribute-info">Stephen Hawking, a celebrated physicist, reshaped our understanding of the cosmos with groundbreaking theories on black holes and the universe's origins. Despite battling ALS, diagnosed at 21, his brilliance persisted, revealing the concept of Hawking radiation, altering our perception of black holes' behavior. Through his bestseller "A Brief History of Time" and subsequent works, he made profound scientific concepts accessible to the masses. Hawking's relentless pursuit of knowledge and his ability to overcome physical limitations inspired generations worldwide. As the Lucasian Professor of Mathematics at Cambridge, he left an indelible mark on theoretical physics, pushing the boundaries of cosmology and seeking a unified theory of the universe. His passing in 2018 marked the loss of an iconic figure whose legacy continues to ignite curiosity and fascination in the realms of science and beyond.</p> 
+        
+      </div>
+      <div id="img-div" class="container">
+        <img class="img-1" src="{% static 'images/s4.jpg' %}" >
+        <img id="image" class="img-2" src="{% static 'images/s5.webp' %}"><br><br>
+       
+      </div>
+       <div class="text-center">
+        <img class="img-3" src="{% static 'images/s6.webp' %}" alt="">
+      </div>
+      <hr>
+      <div id="bio">
+        <h2>NICK VUJICIC</h2>
+        <p id="tribute-info">Nick Vujicic, a motivational speaker and author, was born with tetra-amelia syndrome, a rare disorder leaving him without limbs. Despite facing immense physical challenges, Vujicic embraced life's adversities and became an inspiring figure globally. He travels extensively, delivering motivational speeches that resonate with audiences, spreading messages of hope, determination, and self-acceptance. Through his organization, Life Without Limbs, he supports individuals navigating difficulties, offering guidance and encouragement. Vujicic's books, including "Life Without Limits," have reached countless readers, sharing his journey and empowering others to overcome obstacles. His contagious optimism and unwavering faith have made him a beacon of inspiration, motivating individuals to embrace their uniqueness and find purpose in life. Vujicic's resilience and commitment to uplifting others continue to impact lives, fostering a community of strength and empowerment worldwide.</p> 
+        
+      </div>
+      <div id="img-div">
+        <img class="img-1" src="{% static 'images/n3.jpg' %}">
+        <img id="image" class="img-2" src="{% static 'images/n2.png' %}">
+        <!-- <img class="img-3" src="{% static 'images/s6.webp' %}" alt=""> -->
+      </div>
+      <hr>
+      <div id="bio">
+        <h2>SHEKHAR NAIK</h2>
+        <p id="tribute-info">Shekhar Naik is a revered Indian cricketer who, despite being visually impaired since childhood, became a celebrated figure in the world of cricket. Born in a small village in Karnataka, Naik's journey to success began in blind cricket. He captained the Indian Blind Cricket Team to multiple victories, including the 2012 T20 World Cup and the 2014 Blind Cricket World Cup. His exceptional leadership and cricketing prowess earned him widespread recognition and respect. Naik's dedication and skill were pivotal in elevating the visibility and recognition of blind cricket in India. He received numerous accolades, including the Padma Shri, India's fourth-highest civilian award, for his outstanding contribution to sports. Naik's determination and triumph over adversity stand as an inspiring testament to the power of passion and resilience.</p> 
+        
+      </div>
+      <div id="img-div">
+        <img class="img-1" src="{% static 'images/s11.jpg' %}">
+        <img id="image" class="img-2" src="{% static 'images/s22.jpg' %}">
+        <!-- <img class="img-3" src="{% static 'images/s6.webp' %}" alt=""> -->
+      </div>
+      <hr>
+      
+      <div id="bio">
+        <h2>Helen Keller</h2>
+        <p id="tribute-info">Helen Keller, born in 1880 in Alabama, lost her sight and hearing due to an illness at the age of 19 months, rendering her both deaf and blind. Despite these profound challenges, she defied expectations, becoming an iconic figure of resilience and accomplishment. Under the guidance of her dedicated teacher, Anne Sullivan, Keller learned to communicate through tactile sign language, mastering Braille, and even speaking.
+
+            Her breakthrough came at age seven when she comprehended the link between the signs Sullivan spelled into her hand and the world around her. Keller went on to excel academically, graduating cum laude from Radcliffe College in 1904, the first deaf-blind person to earn a Bachelor of Arts degree.
+            
+            A prolific author and lecturer, Keller championed various causes, advocating for people with disabilities, women's suffrage, and social equality. Her autobiography, "The Story of My Life," remains an inspirational testament to her resilience and determination.
+            
+            Keller's legacy transcends her own achievements, leaving an indelible mark on society, breaking down barriers, and fostering greater understanding and empathy toward individuals with disabilities. She passed away in 1968, leaving a profound and enduring impact on the world.</p> 
+        
+      </div>
+      <div id="img-div">
+        <img class="img-1" src="{% static 'images/h.jpg' %}">
+        <!-- <img id="image" class="img-2" src="{% static 'images/s22.jpg' %}"> -->
+        <!-- <img class="img-3" src="{% static 'images/s6.webp' %}" alt=""> -->
+      </div>
+      <hr>
+      
+     
+      
+    </main>
+    <script>
+      
+
+  
+
+  var recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.lang = 'en-US';
+  
+  recognition.onresult = function(event) {
+    var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+    console.log("result",result);
+     if (result.includes('login')) {
+        // Redirect to the home page
+        log();
+    }
+   
+    
+  
+   
+};
+
+ function log(){
+  window.location.href = '{% url "login" %}';
+ }
+ recognition.onerror = function(event) {
+      console.error('Speech recognition error:', event.error);
+  };
+  
+  recognition.onend = function() {
+      // Restart recognition when it ends
+      recognition.start();
+  };
+
+  // Start speech recognition
+  recognition.start();
+    </script>
+  </body>
+</html>
+

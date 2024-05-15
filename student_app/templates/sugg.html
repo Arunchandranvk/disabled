@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,200" />
+
+    <style>
+        nav div h5:hover{
+            background-color: rgb(129, 203, 240);
+            border: 1px rgb(0, 115, 255) solid;
+        }
+        nav div h5{
+            
+            border: 1px rgb(0, 115, 255) solid;
+        }
+    </style>
+  </head>
+  <body >
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(160, 160, 198) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+    <div>
+        <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Suggestions</h2>
+    </div>
+    <div style="margin-left: 73%;">
+      <!-- <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}" id="voiceLink" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
+        mic
+        </span> </a></h4> -->
+  </div>
+    <div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'sh' %}" class="text-white ml-3"><span class="material-symbols-outlined">
+exit_to_app
+</span></a></div>
+    </nav>
+    <nav class="navbar  navbar-expand-lg text-center" style="margin-left: 35%;">
+     {% if data1.disability == 'Visual Impairment' %}
+      <div>
+            <h5 class="mr-2 ml-1 mt-3 btn text-center" style="text-align: left; letter-spacing: 2px;font-family: 'Times New Roman', Times, serif;" > <a  style="text-decoration: none;color: #000;" href="{% url 'audio' %}"> Audio</a></h5>
+        </div>
+        {% else %}
+            <div> 
+                <h5 class="mr-2 ml-5 mt-3 btn" style="text-align: left; letter-spacing: 2px;font-family: 'Times New Roman', Times, serif; " > <a style="text-decoration: none;color: #000;"  href="{% url 'sug' %}" > Video </a></h5>
+            </div> 
+           <div>
+            <h5 class="mr-2 ml-1 mt-3 btn" style="text-align: left; letter-spacing: 2px;font-family: 'Times New Roman', Times, serif;" > <a  style="text-decoration: none;color: #000;" href="{% url 'audio' %}"> Audio</a></h5>
+        </div>
+            <div>
+            <h5 class="mr-2 ml-1 mt-3 btn" style="text-align: left; letter-spacing: 2px;font-family: 'Times New Roman', Times, serif;" > <a style="text-decoration: none;color: #000;" href="{% url 'text' %}"> Some text For You!! </a></h5>
+        </div>
+        {% endif %}
+    </nav>
+    <hr>
+    {% block sug %}
+    
+        
+        {% for i in data %}
+        
+            <div class="row ml-2 mt-2 mr-3" >
+                <!-- <div class="card ml-1 mt-1 mb-1 " style="margin-left: 20%;"> -->
+                    <div class="card-body font-weight-bold" style="margin-left: 23%;">
+                        <video  controls width="900" height="460">
+                            <source src="{% url 'view_videoo' i.id %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video><br>
+                    <!-- <a href="">{{data.video}}</a> -->
+                    <a href="#"  id="downloadVideo" class="btn btn-info">Download Video</a>             
+                    </div>
+                <!-- </div> -->
+            </div>
+            {% endfor %}
+        
+          
+     <script>
+         function playWelcomeMessage() {
+        const welcomeMessage = new SpeechSynthesisUtterance('welcome suggestions');
+        window.speechSynthesis.speak(welcomeMessage);
+        }
+   playWelcomeMessage();
+     </script>
+     <script>
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.lang = 'en-US';
+        
+        recognition.onresult = function(event) {
+          var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+          console.log("result",result);
+          var currentQuestionIndex=0;
+           if (result.includes('back to home')) {
+              // Redirect to the home page
+              window.location.href = '{% url "sh" %}';
+          }else if (result.includes('go to profile')) {
+              // Redirect to the home page
+              window.location.href = '{% url "pro" %}';
+          }
+          else if (result.includes('go to update profile')) {
+              // Redirect to the home page
+              window.location.href = '{% url "proupd" request.user.student_id.id %}';
+          }
+          else if (result.includes('go to exam')) {
+              // Redirect to the home page
+              window.location.href = '{% url "ansaudio" %}';
+          }
+          else if (result.includes('go to suggestions')) {
+              // Redirect to the home page
+              window.location.href = '{% url "sug" %}';
+          }
+          else if (result.includes('go to audio')) {
+              // Redirect to the home page
+              window.location.href = '{% url "audio" %}';
+          }
+          else if (result.includes('go to result')) {
+              // Redirect to the home page
+              window.location.href = '{% url "res" request.user.student_id.id %}';
+          }
+          else if (result.includes('logout')) {
+              // Redirect to the home page
+              window.location.href = '{% url "logout" %}';
+          }
+          else if (result.includes('go to changepassword')) {
+              // Redirect to the home page
+              window.location.href = '{% url "cp" %}';
+          }
+          else if (result.includes('go to games')) {
+              // Redirect to the home page
+              window.location.href = '{% url "game" %}';
+          }
+          else if (result.includes('go to explore more')) {
+              // Redirect to the home page
+              window.location.href = '{% url "noteview" request.user.student_id.id %}';
+          }
+        
+         
+      };
+       recognition.onerror = function(event) {
+            console.error('Speech recognition error:', event.error);
+        };
+      
+        recognition.onend = function() {
+            // Restart recognition when it ends
+            recognition.start();
+        };
+      
+        // Start speech recognition
+        recognition.start();
+          </script>
+        {% for i in data %}
+         
+        <script>
+        
+            document.getElementById("downloadVideo").addEventListener("click", function() {
+                // Replace 'video_url' with the actual URL of the video file.
+                const videoUrl = "{% url 'view_videoo' i.id %}";
+                
+                // Create an anchor element to initiate the download.
+                const a = document.createElement("a");
+                a.href = videoUrl;
+                a.download = "video.mp4";  // Provide the desired filename for the video.
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        </script>
+        {% endfor %}
+           {% endblock %}
+  </body>
+</html>

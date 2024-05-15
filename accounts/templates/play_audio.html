@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Play Audio</title>
+</head>
+<body>
+{% load static%}
+    <h1>Play Audio</h1>
+    <div id="audio-container">
+        <audio id="audio-player" controls>
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <script>
+        // JavaScript code to play the audio
+        const audioPlayer = document.getElementById("audio-player");
+        
+        // Replace 'audio_url' with the actual URL of your audio file
+        const audioUrl = " {{audio.audio.url}} ";
+        
+        // Set the audio source
+        audioPlayer.src = audioUrl;
+        
+        // Play the audio automatically when the page loads
+        audioPlayer.play();
+    </script>
+</body>
+</html>

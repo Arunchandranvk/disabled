@@ -1,0 +1,19 @@
+{% extends 'sugg.html' %}
+{% block sug %}
+
+
+{% for i in data %}
+<div class="row ml-2 mt-2 mr-3">
+        <div class="card ml-1 mt-1 mb-1" >
+            <div class="card-body font-weight-bold " style="line-height: 35px;">
+            
+                {{i.suggestion}}
+            </div>
+        </div>
+</div>
+{% endfor %} 
+
+           
+           
+
+{% endblock sug %}

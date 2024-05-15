@@ -1,0 +1,33 @@
+{% extends 'Assignexam.html' %}
+{% block content %}
+
+    
+    <div class="row mr-2">
+        <div class="col text-center" >
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <!-- <div class="col"></div> -->
+                <div class="col">
+                  <label class="font-weight-bold mt-2">Select All Tests:</label><br>
+              <!-- <select class="mt-2 form-control"  multiple name="test_ids"> -->
+                  {% for test in tests %}
+                   <div class="card" style="background-color: antiquewhite; padding: 10px;margin: 20px;">
+                  <div class="row mr-2" style="font-weight: bold;font-size: large;margin-left: 5%;" value="{{test.id}}">
+                    {% if test.files %}
+                        {{ forloop.counter }} .<img src="{{ test.files.url }}" alt="Question Image" style="max-width: 100%; height: 80px;">
+                      
+                    {% endif %}
+                  </div>
+                  </div>
+                      <!-- <option value="{{ test.id }}">{{forloop.counter}} .{{ test.text }}</option> -->
+                  {% endfor %}
+              <!-- </select> -->
+              <input type="submit" class="btn btn-info mt-2 mb-4" value="Assign All Tests">
+                </div>
+                <!-- <div class="col"></div> -->
+              </div>            
+          </form>
+          </div>
+    </div>
+{% endblock content  %}

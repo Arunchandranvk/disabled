@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,200" />
+   <script>
+    var speechSynthesisUtterance;
+
+    function startVoice() {
+      var resultText = document.getElementById('resultText').innerText ;
+
+      if ('speechSynthesis' in window) {
+        speechSynthesisUtterance = new SpeechSynthesisUtterance(resultText);
+        speechSynthesisUtterance.lang = 'en-US';
+
+        window.speechSynthesis.speak(speechSynthesisUtterance);
+      } else {
+        alert('Text-to-speech is not supported in your browser.');
+      }
+    }
+
+    function stopVoice() {
+      if (speechSynthesisUtterance && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    // Stop speech when leaving the page
+    window.onbeforeunload = function() {
+      stopVoice();
+    };
+  </script>
+  </head>
+  <body onload="startVoice()">
+    
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(160, 160, 198) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+    <div >
+        <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Result</h2>
+    </div>
+
+    <div style="margin-left: 75%;">
+      {% comment %} <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}" id="voiceLink" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
+        mic
+        </span> </a></h4> {% endcomment %}
+  </div>
+    <div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'sh' %}" class="text-white ml-3"><span class="material-symbols-outlined">
+exit_to_app
+</span></a></div>
+    </nav>
+    
+    {% if request.user.student_id.disability == "Visual Impairment"  %}
+    <div id="resultText">
+    {% else %}
+    <div>
+    {% endif %}
+    <div class="row" style="width: 96%;"  >
+        <div class="col-2 ml-2 mt-2">
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body font-weight-bold"  >
+                   TestScore
+                </div>
+            </div>
+        </div>
+        
+        <div class="col ml-2 mt-2">
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body font-weight-bold"   >
+                    {% if data.score %}
+                        {{data.score}}
+                    {% else %}
+                        <h5>None</h5>
+                     {% endif %}        
+                </div>
+            </div>
+        </div>
+       
+            </div>
+    <div class="row" style="width: 96%;"  >
+        <div class="col-2 ml-2 mt-2">
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body font-weight-bold">
+                   Category
+                </div>
+            </div>
+        </div>
+        <div class="col ml-2 mt-2">
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body font-weight-bold">
+                    {% if data.cat.name %}
+                    {{data.cat.name}}
+                    {% else %}
+                        <h5>None</h5>
+                         
+                     {% endif %}   
+                   
+                </div>
+            </div>
+        </div>
+            </div>
+            <h3 class="ml-3 mt-3">Result is here Check it....</h3>
+            <div class="card mb-5  mt-3"  style="margin: 5px;"  >
+            <table class="table ">
+                <tr >
+                    <th >No.</th>
+                    <th >Question</th>
+                   
+                    <th>Result</th>
+                </tr> 
+                 {% if request.user.student_id.disability == "Hearing Impairment" %}
+                {% for i in resultimg %}
+            
+                <tr>
+                     <td>{{forloop.counter}}</td>
+                  
+                    <td><img src="{{ i.question.files.url }}" alt="Question Image" style="max-width: 100%; height: 80px;"></td>
+                    
+                    {% if i.answer.is_correct == null %}
+                       <td>---</td>
+                    {% else %}   
+                       <td>{{i.answer.is_correct}}</td>
+                    {% endif %}  
+                    
+                </tr>
+                {% endfor %}
+             {% elif request.user.student_id.disability == "Visual Impairment"  %}   
+               {% for i in resultaudio %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td> 
+                    <audio controls>
+                    <source src=" {{ i.question.files.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                    </audio>
+                    </td>
+                    {% if i.answer.is_correct == null %}
+                       <td>---</td>
+                    {% else %}   
+                       <td>{{i.answer.is_correct}}</td>
+                    {% endif %}  
+                </tr>
+                {% endfor %}
+             {% else %}
+                   {% for i in result %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.question.text}}</td>
+                    {% if i.answer.is_correct == null %}
+                       <td>---</td>
+                    {% else %}   
+                       <td>{{i.answer.is_correct}}</td>
+                    {% endif %}  
+                </tr>
+                {% endfor %}
+             {% endif %}   
+            </table>
+        </div>
+    </div>
+        <!-- <script>
+             function startVoice() {
+          
+            var resultText = document.getElementById('resultText').innerText;
+      
+      if ('speechSynthesis' in window) {
+        var speech = new SpeechSynthesisUtterance(resultText);
+        speech.lang = 'en-US';
+
+        window.speechSynthesis.speak(speech);
+      } else {
+        alert('Text-to-speech is not supported in your browser.');
+      }
+        }
+         
+        </script> -->
+        <script>
+          var recognition = new webkitSpeechRecognition();
+          recognition.continuous = true;
+          recognition.lang = 'en-US';
+          
+          recognition.onresult = function(event) {
+            var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+            console.log("result",result);
+            var currentQuestionIndex=0;
+             if (result.includes('back to home')) {
+                // Redirect to the home page
+                window.location.href = '{% url "sh" %}';
+            }
+           
+        };
+         recognition.onerror = function(event) {
+              console.error('Speech recognition error:', event.error);
+          };
+        
+          recognition.onend = function() {
+              // Restart recognition when it ends
+              recognition.start();
+          };
+        
+          // Start speech recognition
+          recognition.start();
+            </script>
+  </body>
+</html>
+
