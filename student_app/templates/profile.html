@@ -30,9 +30,7 @@
         <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Profile</h2>
          </div>
          <div style="margin-left: 75%;">
-      <!-- <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}" id="voiceLink" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
-        mic
-        </span> </a></h4> -->
+
   </div>
          <div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'sh' %}" class="text-white ml-3"><span class="material-symbols-outlined">
 exit_to_app
@@ -49,34 +47,26 @@ exit_to_app
     </div>
     <div class="row mr-2 ml-3" >
         <div class="col-2 ml-2 mt-2">
-            <!-- <div class="card ml-1 mt-1 mb-1">
-                <div class="card-body font-weight-bold" style="padding: 133px 20px ;">
-                   Profile Image
-                </div>
-            </div> -->
             <div class="card ml-1 mt-2 mb-1">
                 <div class="card-body font-weight-bold">
                    Student Id
                 </div>
             </div>
-           
-            
-            <div class="card ml-1 mt-1 mb-1 font-weight-bold">
+                 <div class="card ml-1 mt-1 mb-1 font-weight-bold">
                 <div class="card-body">
                    Email
                 </div>
             </div>
-            
             <div class="card ml-1 mt-1 mb-1 font-weight-bold">
                 <div class="card-body">
-                    Disability Type
+                    Class
                 </div>
             </div>
-           
-             
+
         </div>
         <div class="col mt-2">
-            
+
+                   
             <div class="row">
             <div class="card ml-3  mt-1 mb-1" style="width: 500px;">
                 <div class="card-body">
@@ -90,7 +80,7 @@ exit_to_app
             </div>
             <div class="card ml-3  mt-1 mb-1" style="width: 445px;">
                 <div class="card-body">
-                   {{data.first_name}} {{data.last_name}}
+                   {{data.student_name}} 
                 </div>
             </div>
         </div>
@@ -124,17 +114,17 @@ exit_to_app
         <div class="row">
             <div class="card ml-3 mt-1 mb-1" style="width: 500px;">
                <div class="card-body">
-                   {{data.disability}}
+                   {{data.class_id.class_name}}
                 </div>
             </div>
             <div class="card ml-3 mt-1 mb-1 font-weight-bold" style="width: 200px;">
                 <div class="card-body">
-                    Access Technology
+                    Faculty
                 </div>
             </div>
             <div class="card ml-3 mt-1 mb-1" style="width: 445px;">
                 <div class="card-body">
-                   {{data.accesstechnology}}
+                   {{data.class_id.faculty.name}}
                 </div>
             </div>
         </div>
@@ -174,39 +164,26 @@ exit_to_app
       }
       else if (result.includes('go to update profile')) {
           // Redirect to the home page
-          window.location.href = '{% url "proupd" request.user.student_id.id %}';
-      }
-      else if (result.includes('go to exam')) {
-          // Redirect to the home page
-          window.location.href = '{% url "ansaudio" %}';
+          window.location.href = '';
       }
       else if (result.includes('go to suggestions')) {
           // Redirect to the home page
           window.location.href = '{% url "sug" %}';
       }
-      else if (result.includes('go to audio')) {
-          // Redirect to the home page
-          window.location.href = '{% url "audio" %}';
-      }
+      
       else if (result.includes('go to result')) {
           // Redirect to the home page
-          window.location.href = '{% url "res" request.user.student_id.id %}';
+          window.location.href = '';
       }
       else if (result.includes('logout')) {
           // Redirect to the home page
           window.location.href = '{% url "logout" %}';
       }
-      else if (result.includes('go to changepassword')) {
-          // Redirect to the home page
-          window.location.href = '{% url "cp" %}';
-      }
-      else if (result.includes('go to games')) {
-          // Redirect to the home page
-          window.location.href = '{% url "game" %}';
-      }
+     
+     
       else if (result.includes('go to explore more')) {
           // Redirect to the home page
-          window.location.href = '{% url "noteview" request.user.student_id.id %}';
+          window.location.href = '';
       }
     
      

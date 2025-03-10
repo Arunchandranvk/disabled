@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,200" />
+ <!-- Bootstrap JS -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <style>
+
+     .form-card {
+        padding: 35px;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 4px 60px rgba(0,0,0,0.1);
+      }
+
+      
+      .exams-card {
+        padding: 30px;
+        background-color: white;
+      }
+      .exams-cards {
+        padding: 40px;
+        background-color: white;
+      }
+      
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: fixed; width: 100%;">
+    <div>
+      <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Exams</h2>
+    </div>
+    <div style="margin-left: 80%;">
+      
+  </div>
+    <div style=" text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
+      <a href="{% url 'sh' %}" class="text-white ml-3">
+        <span class="material-symbols-outlined">
+          exit_to_app
+        </span>
+      </a>
+    </div>
+  </nav>
+
+
+
+
+
+  <div class="row">
+    <div class="card exams-cards" style="width:2000px;margin: 55px 0px;">
+      <h4 class="mb-4">Your Exam Results....</h4>
+      {% if exams %}
+        <div class="table-responsive">
+          <table class="table" id="examTable">
+            <thead> 
+              <tr>
+                <th>No.</th>
+                <th>Exam Name</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for score in exams %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <a href="{% url 'res' score.assignedexam.exam.id %}" id="exam-{{ forloop.counter }}">
+                            {{ score.assignedexam.exam.exam_name }}
+                        </a>
+                    </td>
+                    <td>{{ score.assignedexam.exam.date|date:"M d, Y" }}</td>
+                    <td>
+                        {% if score.assignedexam.exam.is_active %}
+                        <p style="color: green;">Active</p> 
+                        {% else %}
+                        <p style="color: red;">Inactive</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+    {% else %}
+      <p class="text-muted text-center">No results............</p>
+    {% endif %}
+    </div>
+  </div>
+
+  {% comment %} <div class="voice-status" id="voiceStatus">
+    <span class="material-symbols-outlined text-white">mic</span>
+  </div> {% endcomment %}
+
+   
+
+    <!-- Include this script in your base template -->
+{% if messages %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        {% for message in messages %}
+        alert("{{ message|escapejs }}");
+        {% endfor %}
+    });
+</script>
+{% endif %}
+
+  <script>
+    const recognition = new webkitSpeechRecognition();
+    const synthesis = window.speechSynthesis;
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    function wordToNumber(word) {
+        const numberWords = {
+            'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
+            'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9,
+            'ten': 10, 'eleven': 11, 'twelve': 12, 'thirteen': 13,
+            'fourteen': 14, 'fifteen': 15, 'sixteen': 16,
+            'seventeen': 17, 'eighteen': 18, 'nineteen': 19,
+            'twenty': 20
+        };
+        
+        // Clean up the word and convert to lowercase
+        const cleanWord = word.toLowerCase().trim();
+        return numberWords[cleanWord];
+    }
+    function speak(text) {
+      synthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      synthesis.speak(utterance);
+    }
+
+    function readExamList() {
+      const table = document.getElementById('examTable');
+      const rows = table.getElementsByTagName('tr');
+      let examCount = rows.length - 1; // Subtract header row
+      
+      speak(`Welcome to the Results page. You have ${examCount} exams listed.`);
+      
+      setTimeout(() => {
+        let examText = "Here are your exams : ";
+        for (let i = 1; i < rows.length; i++) {
+          const examName = rows[i].getElementsByTagName('td')[1].textContent;
+          const status = rows[i].getElementsByTagName('td')[3].textContent.trim();
+          examText += `Number ${i}: ${examName}, Status: ${status}. `;
+        }
+        speak(examText);
+      }, 3000);
+    }
+    
+
+    function goToExam(number) {
+      const examLink = document.getElementById(`exam-${number}`);
+      if (examLink) {
+        speak(`Opening exam number ${number}`);
+        setTimeout(() => {
+          examLink.click();
+        }, 1500);
+      } else {
+        speak(`Exam number ${number} not found`);
+      }
+    }
+
+    recognition.onresult = function(event) {
+      const result = event.results[event.results.length - 1];
+      if (result.isFinal) {
+        const command = result[0].transcript.toLowerCase();
+        console.log("Command:", command);
+
+        if (command.includes('read exams') || command.includes('list exams')) {
+          readExamList();
+        } 
+        else if (command.includes('back to home')) {
+            // Redirect to the home page
+            window.location.href = '{% url "sh" %}';
+        }
+        else if (command.includes('go to exam')) {
+          const number = command.match(/\d+/);
+          if (number) {
+            goToExam(number[0]);
+          }
+          const words = command.split(' ');
+            for (const word of words) {
+                const number = wordToNumber(word);
+                if (number !== undefined) {
+                    goToExam(number.toString());
+                    break;
+                }
+            }
+        }
+      }
+    };
+
+
+    recognition.onend = function() {
+      recognition.start();
+    };
+
+    window.onload = function() {
+      recognition.start();
+      setTimeout(() => {
+        readExamList();
+      }, 1000);
+    };
+
+    // Microphone button click handler
+    document.getElementById('voiceStatus').onclick = function() {
+      readExamList();
+    };
+    window.onbeforeunload = function() {
+        stopReading();
+    };
+  </script>
+
+</body>
+</html>

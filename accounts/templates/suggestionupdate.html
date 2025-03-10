@@ -21,7 +21,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(
         <h2 class="mr-2" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Academic Performance Suggestions</h2>
     </div> -->
    
-    <div style="margin-left: 95%;text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'sadd' %}" class="text-white"><span class="material-symbols-outlined">
+    <div style="margin-left: 95%;text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'suggestions' %}" class="text-white"><span class="material-symbols-outlined">
         exit_to_app
         </span></a></div>
 </nav>
@@ -36,22 +36,18 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
+                    <label for="">Name :</label>
+                        {{ form.name.error }}
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group">
                     <label for="">Text :</label>
                         {{ form.suggestion.error }}
                         {{ form.suggestion }}
                     </div>
-                    <div class="form-group">
-                        <label for="">Video</label>
-                        {{ form.video.error }}
-                        {{ form.video }}
-                    </div>
-                    <div class="form-group">
-                        <label for="">Audio</label>
-                        {{ form.audio.error }}
-                        {{ form.audio }}
-                    </div>
+                   
                     <div style="margin-left: 40%;">
-                        <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
                     </div>
                 </form>
             </div>

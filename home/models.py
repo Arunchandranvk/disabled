@@ -1,12 +1,12 @@
 from django.db import models
-from accounts.models import CustUser,Category
+from accounts.models import CustUser
 # Create your models here.
 
 class Notes(models.Model):
-    file=models.FileField(upload_to='media/notes')
+    user=models.ForeignKey(CustUser,on_delete=models.CASCADE,related_name='notes_user',default=21)
+    title=models.CharField(max_length=100,null=True)
+    desc=models.TextField(null=True)
     dt=models.DateTimeField(auto_now_add=True,null=True)
-    cat=models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
-    # user=models.ForeignKey(CustUser,on_delete=models.CASCADE,related_name='notes');;;;
 
 
 

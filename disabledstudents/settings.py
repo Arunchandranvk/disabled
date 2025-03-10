@@ -25,12 +25,11 @@ SECRET_KEY = 'django-insecure-$d@qcr+l9y)vaytb_dk@qf=jw2!tl9$yic8!%ug^w9(+27v89*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['localhost','*']
 
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # Application definition
 
@@ -46,7 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'home',
     'student_app',
-    'games'
+    'adminpage'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +57,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend'
+]
+
 
 ROOT_URLCONF = 'disabledstudents.urls'
 
@@ -124,7 +128,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+import os
 
+# MEDIA_URL = ''
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = 'static/'
 # STATICFILES_DIRS=[BASE_DIR/'static']
 

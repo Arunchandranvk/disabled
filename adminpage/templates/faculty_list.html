@@ -1,0 +1,54 @@
+{% extends "admin_home.html" %}
+{% load static %}
+{% block adminhome %}
+
+
+<div class="card list-card mb-4">
+    <div class="card-body">
+        <h3 class="card-title text-center mb-4">
+            <i class="material-icons text-primary me-2" style="font-size: 36px;">school</i>
+            Faculties
+            <a href="{% url 'add-fac' %}" style="float: right;" class="btn btn-info text-white" >Add Faculty</a>
+        </h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Specialization</th>
+                    <th>Experience</th>
+                    <th>Photo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fac in faculty %}
+                <tr>
+                    <td>{{fac.name}}</td>
+                    <td>{{fac.email}}</td>
+                    <td>{{fac.gender}}</td>
+                    <td>{{fac.subject}}</td>
+                    <td>{{fac.exp}}</td>
+                    <td>
+                        {% if fac.image %}
+                            <img src="{{fac.image.url}}" alt="" height="40px" width="60px"> 
+                        {% else %}
+                                <img src="{% static 'images/demo.jpg' %}" alt="" height="40px" width="60px"> 
+                        {% endif %}
+                        <!-- <img src="{{fac.img.url}}" alt="" height="40px" style="width:60px;">  -->
+                    </td>
+                    <td>
+                        <a href="{% url 'del-fac' pk=fac.id %}" class="delete-icon" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+
+{% endblock %}

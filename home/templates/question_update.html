@@ -1,0 +1,151 @@
+{% extends 'students.html' %}
+{% block det %}
+<style>
+  .form-card {
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 60px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.exams-card {
+    padding: 30px;
+    background-color: white;
+}
+
+.exams-cards {
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.form-control {
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+}
+
+.form-control:focus {
+    border-color: rgba(1,239,236,0.5);
+    box-shadow: 0 0 0 0.2rem rgba(1,239,236,0.25);
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-top: none;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-create {
+    background: linear-gradient(90deg, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    transition: opacity 0.3s;
+}
+
+.btn-create:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+.btn-outline-primary {
+    color: rgba(94,94,147,1);
+    border-color: rgba(94,94,147,1);
+    margin-right: 5px;
+}
+
+.btn-outline-primary:hover {
+    background-color: rgba(94,94,147,1);
+    border-color: rgba(94,94,147,1);
+}
+
+.question-form input {
+    transition: all 0.3s ease;
+}
+
+.question-form input:focus {
+    transform: translateX(5px);
+}
+.required-field::after {
+        content: "*";
+        color: #ef4444;
+        margin-left: 4px;
+    }
+    label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+</style>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+  <div >
+      <h2 class=" ml-5 mr-2 mt-3" style=" letter-spacing: 2px;font-family:fantasy;" >Questions Update</h2>
+  </div>
+
+        <div style="margin-left:75%; text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'exam-name' %}" class="text-white"><span class="material-symbols-outlined">
+          exit_to_app
+          </span></a></div>
+    </nav>
+
+    <div class="container mt-4">
+      <!-- Question Creation Form -->
+      <div class="row justify-content-center">
+          <div class="col-md-10">
+              <div class="card form-card">
+                  <h4 class="mb-4">Update Question</h4>
+                  <form method="post" class="question-form">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="" class="required-field">Question</label>
+                          <input type="text" name="question" class="form-control" placeholder="Question" value={{form.question.value}} required>
+                          <div class="row">
+                              <div class="col-md-6">
+                                <label for="" class="required-field">Option 1</label>
+                                  <input type="text" name="option_1" class="form-control" placeholder="Option 1" value="{{form.option_1.value}}" required>
+                                  <label for="" class="required-field">Option 3</label>
+                                  <input type="text" name="option_2" class="form-control" placeholder="Option 2" value="{{form.option_2.value}}" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="" class="required-field">Option 2</label>
+                                  <input type="text" name="option_3" class="form-control" placeholder="Option 3" value="{{form.option_3.value}}" required>
+                                  <label for="" class="required-field">Option 3</label>
+                                  <input type="text" name="option_4" class="form-control" placeholder="Option 4" value="{{form.option_4.value}}" required>
+                              </div>
+                          </div>
+                          <label for="" class="required-field">Correct Answer</label>
+                          <input type="text" name="answer" class="form-control" placeholder="Correct Answer" value="{{form.answer.value}}" required>
+                          {% if field.errors %}
+                              {% for error in field.errors %}
+                                  <small class="text-danger">{{ error }}</small>
+                              {% endfor %}
+                          {% endif %}
+                      </div>
+                      <button type="submit" class="btn btn-create float-right">Update</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  
+    </div>
+{% endblock %}

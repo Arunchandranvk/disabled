@@ -35,9 +35,7 @@
         <h2 class="mr-2 ml-1" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Details</h2>
          </div>
          <div style="margin-left: 65%;">
-      <!-- <h4 class="mr-2 ml-5"><a href="{% url 'voice' %}" id="voiceLink"  style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: white;"><span class="material-symbols-rounded">
-        mic
-        </span> </a></h4> -->
+        
   </div>
          <div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'sh' %}" class="text-white ml-3"><span class="material-symbols-outlined">
 exit_to_app
@@ -54,14 +52,10 @@ exit_to_app
             </div>
             <div class="card ml-1 mt-1 mb-1" id="fn" style="padding: 7px 15px;">
                 <div class="card-body font-weight-bold">
-                   First Name :
+                   Name :
                 </div>
             </div>
-            <div class="card ml-1 mt-1 mb-1" id="ln" style="padding: 7px 15px;">
-                <div class="card-body font-weight-bold">
-                   Last Name :
-                </div>
-            </div>
+           
             <div class="card ml-1 mt-1 mb-1" id="em" style="padding: 7px 15px;">
                 <div class="card-body font-weight-bold">
                    Email :
@@ -77,16 +71,7 @@ exit_to_app
                    Age :
                 </div>
             </div>
-            <div class="card ml-1 mt-1 mb-1 font-weight-bold" id="dt" style="padding: 1px 15px;">
-                <div class="card-body">
-                    Disability Type :
-                </div>
-            </div>
-            <div class="card ml-1 mt-1 mb-1 font-weight-bold" id="at" style="padding: 1px 10px;">
-                <div class="card-body">
-                    Access Technology :
-                </div>
-            </div>          
+                   
         </div>
 
         <form action="" method="post" id="formsubmit" enctype="multipart/form-data">
@@ -100,16 +85,11 @@ exit_to_app
             </div>
             <div class="card ml-1 mt-1 mb-1">
                 <div class="card-body">
-                   {{form.first_name.error}}
-                   {{form.first_name}}
+                   {{form.student_name.error}}
+                   {{form.student_name}}
                 </div>
             </div>
-            <div class="card ml-1 mt-1 mb-1">
-                <div class="card-body">
-                   {{form.last_name.error}}
-                   {{form.last_name}}
-                </div>
-            </div>
+            
             <div class="card ml-1 mt-1 mb-1">
                 <div class="card-body">
                    {{form.email.error}}
@@ -128,18 +108,8 @@ exit_to_app
                    {{form.age}}
                 </div>
             </div>
-            <div class="card ml-1 mt-1 mb-1">
-               <div class="card-body">
-                   {{form.disability.error}}
-                   {{form.disability}}
-                </div>
-            </div>
-            <div class="card ml-1 mt-1 mb-1">
-               <div class="card-body">
-                   {{form.accesstechnology.error}}
-                   {{form.accesstechnology}}
-                </div>
-            </div>
+           
+           
             <div class="text-center">
                 <div class="row mt-3 ml-1">
                     <div class="col"><button id="cnfrmbtn" class="btn btn-block btn-success">Confirm</button></div>
@@ -176,51 +146,12 @@ exit_to_app
            if (result.includes('back to home')) {
               // Redirect to the home page
               window.location.href = '{% url "sh" %}';
-          }else if (result.includes('go to profile')) {
-              // Redirect to the home page
-              window.location.href = '{% url "pro" %}';
-          }
-          else if (result.includes('go to update profile')) {
-              // Redirect to the home page
-              window.location.href = '{% url "proupd" request.user.student_id.id %}';
-          }
-          else if (result.includes('go to exam')) {
-              // Redirect to the home page
-              window.location.href = '{% url "ansaudio" %}';
-          }
-          else if (result.includes('go to suggestions')) {
-              // Redirect to the home page
-              window.location.href = '{% url "sug" %}';
-          }
-          else if (result.includes('go to audio')) {
-              // Redirect to the home page
-              window.location.href = '{% url "audio" %}';
-          }
-          else if (result.includes('go to result')) {
-              // Redirect to the home page
-              window.location.href = '{% url "res" request.user.student_id.id %}';
-          }
-          else if (result.includes('logout')) {
-              // Redirect to the home page
-              window.location.href = '{% url "logout" %}';
-          }
-          else if (result.includes('go to changepassword')) {
-              // Redirect to the home page
-              window.location.href = '{% url "cp" %}';
-          }
-          else if (result.includes('go to games')) {
-              // Redirect to the home page
-              window.location.href = '{% url "game" %}';
-          }
-          else if (result.includes('go to explore more')) {
-              // Redirect to the home page
-              window.location.href = '{% url "noteview" request.user.student_id.id %}';
           }
           else if (result.includes('confirm')){
             document.getElementById("formsubmit").submit();
            
           }
-        else if(result.includes('first name') || result.includes('firstname')){
+        else if(result.includes('name') || result.includes('name.')){
             var fname =$("#id_first_name").val();
             $("#id_first_name").focus();
             $("#id_first_name").select();
@@ -232,24 +163,24 @@ exit_to_app
             $("#id_last_name").select();
             speakMessage(lname);
         }
-        else if(result.includes('email')){
+        else if(result.includes('email') || result.includes('name.')){
             var lname =$("#id_email").val();
             $("#id_email").focus();
             $("#id_email").select();
             speakMessage(lname);
         }
         else{
-if(document.getElementById("id_first_name")==document.activeElement){
-    $("#id_first_name").val(result);
-    speakMessage($("#id_first_name").val());
-}else if(document.getElementById("id_last_name")==document.activeElement){
-    $("#id_last_name").val(result);
-    speakMessage($("#id_last_name").val());
-}
-else if(document.getElementById("id_email")==document.activeElement){
-    $("#id_email").val(result);
-    speakMessage($("#id_email").val());
-}
+        if(document.getElementById("id_first_name")==document.activeElement){
+            $("#id_first_name").val(result);
+            speakMessage($("#id_first_name").val());
+        }else if(document.getElementById("id_last_name")==document.activeElement){
+            $("#id_last_name").val(result);
+            speakMessage($("#id_last_name").val());
+        }
+        else if(document.getElementById("id_email")==document.activeElement){
+            $("#id_email").val(result);
+            speakMessage($("#id_email").val());
+        }
 
 
         }

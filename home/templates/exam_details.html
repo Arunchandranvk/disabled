@@ -1,0 +1,92 @@
+{% extends 'students.html' %}
+{% block det %}
+<style>
+     .form-card {
+        padding: 35px;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 4px 60px rgba(0,0,0,0.1);
+      }
+
+      
+      .exams-card {
+        padding: 30px;
+        background-color: white;
+      }
+      .exams-cards {
+        padding: 40px;
+        background-color: white;
+      }
+      
+</style>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+  <div >
+      <h2 class=" ml-5 mr-2 mt-3" style=" letter-spacing: 2px;font-family:fantasy;" >Exam Details</h2>
+  </div>
+
+        <div style="margin-left:72%; text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'h' %}" class="text-white"><span class="material-symbols-outlined">
+          exit_to_app
+          </span></a></div>
+    </nav>
+
+
+ <div class="row">
+    <div class="card exams-cards" style="width:2000px;margin: 5px;">
+      <h4 class="mb-4">Your Exams</h4>
+      {% if exams %}
+        <div class="table-responsive">
+          <table class="table">
+            <thead> 
+              <tr>
+                <th>
+                  Exam Name</th>
+                <th>Created Date</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for exam in exams %}
+                <tr>
+                  <td><a href="{% url 'exam-detail-student' exam.id %}">{{ exam.exam_name }}</a></td>
+                  <td>{{ exam.date|date:"M d, Y" }}</td>
+                  <td>
+                        {% if exam.is_active == True %}
+                        <p  style="color: green;">Active</p> 
+                        {% else %}
+                        <p  style="color: red;"> Inactive</p>
+                        {% endif %}
+                  </td>
+                  <td>
+                       <a href="{% url 'deactivate-exam' exam.id %}"   class="btn btn-danger"  style="color:white;text-decoration:none;">Deactivate</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted text-center">No exams created yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Include this script in your base template -->
+{% if messages %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        {% for message in messages %}
+        alert("{{ message|escapejs }}");
+        {% endfor %}
+    });
+</script>
+{% endif %}
+
+{% endblock %}

@@ -11,15 +11,14 @@ class ChangePasswordForm(forms.Form):
 
 class StudentFormProfile(forms.ModelForm):
      class Meta:
-          model=Student
-          fields=['first_name','last_name','email','img','gender','age','disability','accesstechnology']
-          widgets={
-               'first_name':forms.TextInput(attrs={"placeholder":"Firstname","class":"form-control","style":"border-radius: 0.75rem; "}),
-               'last_name':forms.TextInput(attrs={"placeholder":"Lastname","class":"form-control","style":"border-radius: 0.75rem; "}),
-               'email':forms.TextInput(attrs={"placeholder":"Email","class":"form-control","style":"border-radius: 0.75rem; "}),
-               'gender':forms.RadioSelect(),
-               'age':forms.NumberInput(attrs={"placeholder":"Age","class":"form-control","style":"border-radius: 0.75rem; "}),
-          }
+        model=Student
+        fields=['student_name','email','img','gender','age']
+        widgets={
+            'student_name':forms.TextInput(attrs={"placeholder":"Email","class":"form-control","style":"border-radius: 0.75rem; "}),
+            'email':forms.TextInput(attrs={"placeholder":"Email","class":"form-control","style":"border-radius: 0.75rem; "}),
+            'gender':forms.RadioSelect(),
+            'age':forms.NumberInput(attrs={"placeholder":"Age","class":"form-control","style":"border-radius: 0.75rem; "}),
+        }
 
 
 

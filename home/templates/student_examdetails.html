@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,0,200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,200" />
+   <style>
+    #search{
+            background-color: white;
+            border: 0;
+            border-radius: 0.25rem;
+            color: rgba(128, 128, 128, 0.953);
+            padding: .4rem .4rem .1rem .4rem;
+            }
+            .card {
+              border: none;
+              border-radius: 12px;
+              box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+              margin: 2rem;
+              padding: 1rem;
+            }
+            
+            .table {
+              margin: 0;
+            }
+            
+            .table thead th {
+              border-top: none;
+              border-bottom: 2px solid #dee2e6;
+              font-weight: 600;
+              color: #424242;
+              padding: 1rem;
+            }
+            
+            .table tbody td {
+              padding: 1rem;
+              vertical-align: middle;
+              border-top: 1px solid #dee2e6;
+            }
+            
+            .table tbody tr {
+              transition: background-color 0.3s;
+            }
+            
+            .table tbody tr:hover {
+              background-color: #f8f9fa;
+            }
+            
+            .table a {
+              color: #1a237e;
+              font-weight: 500;
+              transition: color 0.3s;
+            }
+            
+            .table a:hover {
+              color: #3949ab;
+              text-decoration: none;
+            }
+            
+            .no-students {
+              text-align: center;
+              padding: 2rem;
+              color: #757575;
+              font-size: 1.1rem;
+            }
+            
+            @media (max-width: 768px) {
+              .navbar {
+                padding: 1rem;
+              }
+              
+              .card {
+                margin: 1rem;
+              }
+              
+              .table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+              }
+            }
+   </style>
+ </head>
+  <body>
+    {% block det %}
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+                        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+        <div>
+            <h2 class="mr-2" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Students</h2>
+        </div>
+         <div style="margin-left: 87%;text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'h' %}" class="text-white"><span class="material-symbols-outlined">
+exit_to_app
+</span></a></div>
+    </nav>
+    
+    <div class="card " style="margin: 5px;">
+ 
+      <table class="table">
+        {% if combined_data %}
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Student ID</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Score</th>
+              <th>Category</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in combined_data %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <a href="#" style="text-decoration: none; color: black;">{{ student.std_id }}</a>
+                </td>
+                <td>
+                  {% if student.img %}
+                    <img src="{{ student.img }}" alt="" height="40px" width="60px">
+                  {% else %}
+                    <img src="{% static 'images/demo.jpg' %}" alt="" height="40px" width="60px">
+                  {% endif %}
+                </td>
+                <td>{{ student.student_name }}</td>
+                <td>{{ student.class_name }}</td>
+                <td>{{ student.score }}</td>
+                <td>{{ student.category }}</td>
+                
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% else %}
+          <p class="mt-2">No Students</p>
+        {% endif %}
+      </table>
+      
+     
+    </div>
+    
+    {% endblock det %}
+  </body>
+</html>

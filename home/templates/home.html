@@ -107,24 +107,22 @@ background: linear-gradient(90deg, rgba(40,37,82,1) 0%, rgba(2,193,232,1) 100%);
     <div>
         <h2 class="mr-2 ml-5 text-white " style="text-align: left; letter-spacing: 2px;font-family:fantasy;" >Home</h2>
     </div>
-    <div  style="margin-left:10%;">
+    <div  style="margin-left:45%;">
         <h4 class="mr-2 ml-5"><a href="{% url 'stu' %}"  style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;">Students</a></h4>
     </div>
+   
+    {% comment %} <div>
+        <h4 class="mr-2 ml-5"><a href="{% url 'exam-name' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;">Exam</a> </h4>
+    </div> {% endcomment %}
     <div>
-        <h4 class="mr-2 ml-5"> <a href="{% url 'add' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;"> Add Students</a></h4>
-    </div>
-    <div>
-        <h4 class="mr-2 ml-5"><a href="{% url 'qdel' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;">Questions</a> </h4>
-    </div>
-    <div>
-        <h4 class="mr-2 ml-5 "><a href="{% url 'score' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;"> Test Details</a></h4>
+        <h4 class="mr-2 ml-5 "><a href="{% url 'exam-detail' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;"> Exam Details</a></h4>
     </div>
     <div>
         <h4 class="mr-2 ml-5 "><a href="{% url 'note' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;">Notes</a></h4>
     </div>
-    <div>
+    {% comment %} <div>
         <h4 class="mr-2 ml-5 "><a href="{% url 'msg' %}" style="text-align: left; letter-spacing: 2px;font-family:fantasy;text-decoration: none;color: black;">Messages</a></h4>
-    </div>
+    </div> {% endcomment %}
     <div class="dropdown" style='margin-left: 5%;'>
       <button class="dropbtn" > <a class="nav-link text-light " href=""><span class="material-symbols-outlined">
         manage_accounts
@@ -165,7 +163,7 @@ background: linear-gradient(90deg, rgba(40,37,82,1) 0%, rgba(2,193,232,1) 100%);
   <div class="col-sm-4" style="margin-left: 15%;">
     <div class="card" >
       <div class="card-body" id="card3">    
-        <a href="{% url 'testall' %}" class="btn btn-info" style="text-align: center; letter-spacing: 1px;font-family:'Times New Roman', Times, serif;padding: 80px ;width: 100%;font-weight: bold;font-size: larger;">Assign Test</a>
+        <a href="{% url 'exam-name' %}" class="btn btn-info" style="text-align: center; letter-spacing: 1px;font-family:'Times New Roman', Times, serif;padding: 80px ;width: 100%;font-weight: bold;font-size: larger;">Assign Exam</a>
       </div>
     </div>
   </div>
@@ -173,7 +171,7 @@ background: linear-gradient(90deg, rgba(40,37,82,1) 0%, rgba(2,193,232,1) 100%);
     <div class="card " id="card4" >
       <div class="card-body" >
         
-        <a href="{% url 'sadd' %}" class="btn btn-info" style="text-align: center; letter-spacing: 2px;font-family:'Times New Roman', Times, serif;padding: 80px 90px;width: 100%;font-weight: bold;font-size: larger;">Suggestion</a>
+        <a href="{% url 'suggestions' %}" class="btn btn-info" style="text-align: center; letter-spacing: 2px;font-family:'Times New Roman', Times, serif;padding: 80px 90px;width: 100%;font-weight: bold;font-size: larger;">Suggestion</a>
       </div>
     </div>
   </div>

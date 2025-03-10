@@ -5,9 +5,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -18,48 +15,24 @@
 
   </head>
      <style>
-         #search {
+
+          .exams-card {
+            padding: 30px;
             background-color: white;
-            border: 0;
-            border-radius: 0.25rem;
-            color: rgba(128, 128, 128, 0.953);
-            padding: .4rem .4rem .1rem .4rem;
-        }
-
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .custom-table th,
-        .custom-table td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        /* .custom-table th {
-        } */
-
-        .custom-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .custom-table tr:hover {
-            background-color: #ddd;
-        }
+          }
+          .exams-cards {
+            padding: 40px;
+            background-color: white;
+          }
+          
     </style>
 </head>
   <body onload="startVoice()">
    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36); background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%); position: relative; fixed; width: 100%;">
         <div>
-            <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy; font-weight: bold;">Notes</h2>
+          <a href="{% url 'sh' %}" style="text-decoration:none;color:white;">
+            <h2 class="mr-2 ml-5" style="text-align: left; letter-spacing: 2px; font-family: fantasy;">Material</h2></a>
         </div>
-        
-        <div >
-       <!-- <h4 class="mr-2 ml-5"><button  id="startVoiceRecognition" style="text-align: left; letter-spacing: 2px;text-decoration: none;border:none;"><span class="material-symbols-rounded">
-        mic
-        </span> </button></h4>  -->
   </div>
         <div style="margin-left: 85%;text-decoration: none; color: white; padding: 4px; border-radius: 0.5rem;">
             <a href="{% url 'sh' %}" class="text-white ml-3">
@@ -67,210 +40,151 @@
             </a>
         </div>
     </nav>
-
-    {% for i in data %}
-        {% if i.cat.name == request.user.student_id.disability %}
-
-            <div class="row mt-5" style="border: solid black 1px; border-radius: 1rem; padding: 50px; width: 98%; margin: 10px;">
-           
-                {% if  i.file.name|lower|slice:"-4:" == ".jpg"  or  i.file.name|lower|slice:"-4:" == ".png" %}
-                        
-                    <img src="{{ i.file.url }}" alt="Question Image" height="80px">
-
-                {% elif i.file.name|lower|slice:"-4:" == ".pdf"  %}
-                
-               
-                   <a href="{{ i.file.url }}"></a> 
-                {% elif i.file.name|lower|slice:"-4:" == ".mp3"  %}
-                
-                <audio controls id="questionAudio{{ forloop.counter }}" >
-                    <source src="{{ i.file.url }}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                {% elif i.file.name|lower|slice:"-4:" == ".mp4"  %}
-                
-                <video controls>
-                    <source src="{{ i.file.url }}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </video>
-
-
-                {% elif i.file.name|lower|slice:"-4:" == ".doc" %}
-                <a href="{{ i.file.url }}" download="your_document_name.docx"></a>
-
-                
-                {% else %}    
-                    <p>File type not supported or unrecognized.</p>
-                {% endif %}
-                 <div class="col">
-                    <label>Link:</label>
-                     <a href="{{ i.file.url }}" target="_blank">{{ i.file.name }}</a>
-                 </div>
-                 <div class="col">
-                    <p>{{i.cat}}</p>
-                 </div>
-                
-             
+    <div class="row">
+        <div class="card exams-cards" style="width:1800px;margin: 5px;">
+          {% if notes %}
+            <div class="table-responsive">
+              <table class="table">
+                <thead> 
+                  <tr>
+                    <th>No.</th>
+                    <th style="width:150px;">Title</th>
+                    <th>Material</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for note in notes %}
+                    <tr>
+                      <td>{{forloop.counter }}</td>
+                      <td>{{note.title }}</td>
+                      <td>{{note.desc }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
-
+          {% else %}
+            <p class="text-muted text-center">No Notes added yet.</p>
           {% endif %}
-    {% endfor %}
+        </div>
+      </div>
+    </div>
 
- <script>
-     function playWelcomeMessage() {
-        const welcomeMessage = new SpeechSynthesisUtterance('welcome explore more');
-        window.speechSynthesis.speak(welcomeMessage);
-        }
-   playWelcomeMessage();
-  // Get the audio elements by ID
-    var questionAudios = [
-        {% for i in data %}
-            document.getElementById('questionAudio{{ forloop.counter }}'),
-        {% endfor %}
-    ];
-// {% comment %} 
-//   var answerSets = [
-//       {% for student_answer in student_answers %}
-//           [
-//               {% for answer in ans %}
-//                   {% if answer.question == student_answer.question %}
-//                       document.getElementById('answerAudio{{ answer.id }}'),
-//                   {% endif %}
-//               {% endfor %}
-//           ],
-//       {% endfor %}
-//   ]; {% endcomment %}
-
-  // Start playing questions and answers
-//   playNext(0);
-
-  // Initialize speech recognition
-//   window.onload = function() {
-//   // This function will be executed when the page loads
-
-//   // Speak the welcome message
-//   speak('Welcome!');
-//   };
-  var recognition = new webkitSpeechRecognition();
-  recognition.continuous = true;
-  recognition.lang = 'en-US';
-    
-    let isPlaying = false;
-
-    recognition.onresult = function(event) {
-    var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
-    console.log(result);
-
-    if (result.includes('play') ) {
-        // Start playing questions and answers
-        playNext(0);
+    <script>
+      let currentNoteIndex = 0; // Tracks the current note index
+      let notes = [];
+      let isSpeaking = false; // Tracks if the SpeechSynthesis is speaking
+      
+      {% if notes %}
+      notes = [
+          {% for note in notes %}
+          {
+              title: "{{ note.title|escapejs }}",
+              desc: "{{ note.desc|escapejs }}"
+          },
+          {% endfor %}
+      ];
+      {% endif %}
   
-        // Add logic to stop playing here if necessary
-    } else if (result.includes('second') ) {
-        // Start playing questions and answers for the second set
-        // isPlaying = true;
-        playNext(1);
-    } else if (result.includes('back to home')) {
-        // Redirect to the home page
-        window.location.href = '{% url "sh" %}';  // Replace '/home' with the actual home page URL
-    }
-    };
-  
-    function speak(text) {
-  var msg = new SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(msg);
-}
-
-
-  recognition.onerror = function(event) {
-      console.error('Speech recognition error:', event.error);
-  };
-  
-  recognition.onend = function() {
-      // Restart recognition when it ends
-      recognition.start();
-  };
-
-  // Start speech recognition
-  recognition.start();
-
-  async function playNext(index) {
-      if (index < questionAudios.length) {
-          await playAudio(questionAudios[index]);
-        //   await playAnswers(answerSets[index]);
-          playNext(index);
+      function playWelcomeMessage() {
+          const welcomeMessage = new SpeechSynthesisUtterance('Welcome to the notes page');
+          welcomeMessage.onend = function () {
+              speakMaterialDetails(); // Call to play the first note
+          };
+          window.speechSynthesis.speak(welcomeMessage);
+          isSpeaking = true;
       }
-  }
-
-//   async function playAnswers(answers) {
-//       for (let i = 0; i < answers.length; i++) {
-//           await playAudio(answers[i]);
-//       }
-//   }
-
-  function playAudio(audioElement) {
-      return new Promise((resolve) => {
-          audioElement.play();
-          audioElement.addEventListener('ended', function onEnded() {
-              audioElement.removeEventListener('ended', onEnded);
-              resolve();
-          });
+  
+      function speakMaterialDetails() {
+          if (notes.length > 0) {
+              playNoteAtIndex(currentNoteIndex);
+          } else {
+              const noNotesMessage = new SpeechSynthesisUtterance('No notes are added yet.');
+              window.speechSynthesis.speak(noNotesMessage);
+              isSpeaking = true;
+          }
+      }
+  
+      function playNoteAtIndex(index) {
+          if (index >= 0 && index < notes.length) {
+              const note = notes[index];
+              const message = `Note ${index + 1}: Title is ${note.title}. Description is ${note.desc}.`;
+              const utterance = new SpeechSynthesisUtterance(message);
+              utterance.onend = () => (isSpeaking = false);
+              window.speechSynthesis.speak(utterance);
+              isSpeaking = true;
+          }
+      }
+  
+      function stopSpeaking() {
+          window.speechSynthesis.cancel();
+          isSpeaking = false;
+      }
+  
+      var recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.lang = 'en-US';
+  
+      recognition.onresult = function (event) {
+          var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+          console.log(result);
+  
+          if (result.includes('next')) {
+              if (currentNoteIndex < notes.length - 1) {
+                  currentNoteIndex++;
+                  playNoteAtIndex(currentNoteIndex);
+              } else {
+                  speak('You are at the last note.');
+              }
+          } else if (result.includes('previous')) {
+              if (currentNoteIndex > 0) {
+                  currentNoteIndex--;
+                  playNoteAtIndex(currentNoteIndex);
+              } else {
+                  speak('You are at the first note.');
+              }
+          } else if (result.includes('stop')) {
+              stopSpeaking();
+          } 
+         else if (result.includes('continue')) {
+          if (!isSpeaking) {
+              playNoteAtIndex(currentNoteIndex); // Resume the current note
+          }}
+          else if (result.includes('back to home')) {
+              window.location.href = '{% url "sh" %}';
+          }
+      };
+  
+      function speak(text) {
+          const msg = new SpeechSynthesisUtterance(text);
+          msg.onend = () => (isSpeaking = false);
+          window.speechSynthesis.speak(msg);
+          isSpeaking = true;
+      }
+  
+      recognition.onerror = function (event) {
+          console.error('Speech recognition error:', event.error);
+      };
+  
+      recognition.onend = function () {
+          recognition.start();
+      };
+  
+      recognition.start();
+  
+      function startVoice() {
+          document.getElementById('startVoiceRecognition').click();
+      }
+  
+      window.addEventListener('beforeunload', () => {
+          if (window.speechSynthesis) {
+              window.speechSynthesis.cancel();
+          }
       });
-  }
-  function startVoice() {
-            document.getElementById('startVoiceRecognition').click();
-        }
-</script>
-
-
-
-  <!-- {% comment %} 
-        document.addEventListener('DOMContentLoaded', function () {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'en-US';
-
-            // Assume you have an audio element with the id 'audioPlayer'
-            const audioPlayer = document.getElementById('audioPlayer');
-
-            recognition.onresult = function (event) {
-                const transcript = event.results[0][0].transcript.toLowerCase().trim();
-
-                // Your logic for recognizing voice commands
-                if (transcript.includes('play audio')) {
-                    playAudio();
-                }
-                
-                 if (transcript.includes('go to home')) {
-                    window.location.href = "{% url 'sh' %}";
-                }
-                // Add more voice commands as needed
-
-                console.log('Voice Recognition Result:', transcript);
-            };
-
-            recognition.onerror = function (event) {
-                console.error('Voice Recognition Error:', event.error);
-            };
-
-            function playAudio() {
-                // Set the source of the audio element to the desired audio file URL
-                audioPlayer.src = {% for i in data %}
-                     {% if i.file.name|lower|slice:"-4:" == ".mp3"  %}
-                       '{{ i.file.url }}',
-                    {% endif %}
-                {% endfor %} // Replace with the actual path to your audio file
-                audioPlayer.play();
-                console.log('Playing Audio:', audioFile);
-                
-            }
-
-            // Add an event listener to start voice recognition on a button click
-            const startVoiceRecognitionButton = document.getElementById('startVoiceRecognition');
-            startVoiceRecognitionButton.addEventListener('click', function () {
-                recognition.start();
-            });
-        });
-    </script> {% endcomment %} -->
-
+  
+      playWelcomeMessage();
+  </script>
+  
+  
   </body>
 </html>

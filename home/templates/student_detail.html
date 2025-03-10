@@ -1,0 +1,115 @@
+{% extends 'students.html' %}
+{% load static %}
+    {% block det %} 
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);position:relative fixed;width: 100%;">
+<div>
+<h2 class="mr-2" style="text-align: left; letter-spacing: 2px;font-family:fantasy;font-weight: bold;" >Student Details    </h2>
+</div>
+<div style="margin-left: 73%;text-decoration: none;color: white;padding: 10px;border-radius: 0.5rem;font-weight:bolder;" ><a href="{% url 'h' %}" style="text-decoration: none;" class="text-white mr-3">Home</a></div>
+<div style="text-decoration: none;color: white;padding: 4px;border-radius: 0.5rem;" ><a href="{% url 'stu' %}" class="text-white"><span class="material-symbols-outlined">
+exit_to_app
+</span></a></div>
+</nav>
+    <div class="row mr-2">
+        <div class="col-2 ml-2 mt-2">
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body font-weight-bold">
+                   Id
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body font-weight-bold">
+                   Name
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1 font-weight-bold">
+                <div class="card-body">
+                   Gender
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1 font-weight-bold">
+                <div class="card-body">
+                   Age
+                </div>
+            </div>
+            
+            <div class="card ml-1 mt-1 mb-1 font-weight-bold">
+                <div class="card-body">
+                    Photo
+                </div>
+            </div>
+            {% if det %}
+            <div class="card ml-1 mt-1 mb-1 font-weight-bold">
+                <div class="card-body">
+                    Score
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1 font-weight-bold">
+                <div class="card-body">
+                    Category
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1 font-weight-bold" style="padding:100px 0px;">
+                <div class="card-body">
+                    Suggestion
+                </div>
+            </div>
+           
+            
+            {% endif %}
+        </div>
+        
+        <div class="col mt-2">
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body">
+                   {{data.std_id}}
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body">
+                   {{data.student_name}}
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body">
+                   {{data.gender}}
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+               <div class="card-body">
+                   {{data.age}}
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+               <div class="card-body">
+                {% if data.img %}
+                    <img src="{{data.img.url}}" alt="" height="40px" width="60px"> 
+                {% else %}
+                    <img src="{% static 'images/demo.jpg' %}" alt="" height="40px" width="60px"> 
+                {% endif %}
+                </div>
+            </div>
+            
+            {% for i in det %}
+            <div class="card ml-1 mt-1 mb-1">
+                    <div class="card-body">
+                   {{i.score}}
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body">
+                   {{i.cat.name}}
+                </div>
+            </div>
+            <div class="card ml-1 mt-1 mb-1">
+                <div class="card-body" style="height:265px;">
+                   {{i.suggestion}}
+                </div>
+            </div>
+            
+           
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

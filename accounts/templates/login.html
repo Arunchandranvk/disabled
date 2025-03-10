@@ -22,46 +22,19 @@
             font-family: 'Times New Roman', Times, serif;
         }
     </style>
-    <script>
-         function playWelcomeMessage() {
-        setTimeout(function () {
-            var welcomeMessage = new SpeechSynthesisUtterance('Please log in using your username and password.');
-            window.speechSynthesis.speak(welcomeMessage);
-        }, 1000); // 1000 milliseconds delay (adjust as needed)
-    }
-        function playWelcomeMessage1() {
-            setTimeout(function () {
-    var welcomeMessage = new SpeechSynthesisUtterance('enter username');
-    window.speechSynthesis.speak(welcomeMessage);
-        },500);}
-        function playWelcomeMessage2() {
-            setTimeout( function () {
-    var welcomeMessage = new SpeechSynthesisUtterance('enter password');
-    window.speechSynthesis.speak(welcomeMessage);
-    },500);
-}
-    function stopVoice() {
-      if (speechSynthesisUtterance && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-    }
 
-    // Stop speech when leaving the page
-    window.onbeforeunload = function() {
-      stopVoice();
-    };
-    </script>
 </head>
 
-<body style="margin-top: 200px;" onload="playWelcomeMessage()">
+<body style="margin-top: 200px;" >
     <h2 class="text-center display-1 mb-2">Log In</h2>
     <div class="row">
         <div class="col"></div>
         <div class="col">
             <form action="" method="post" > 
                 {% csrf_token %}
+                {{form.errors}}
                 <div class="mt-2">
-                    <input type="text"  class="form-control" name="username" id="username" placeholder="Username" style="border-radius: 0.75rem;" required onfocus="playWelcomeMessage1()">
+                    <input type="text"  class="form-control" name="email" id="email" placeholder="Email" style="border-radius: 0.75rem;" required onfocus="playWelcomeMessage1()">
                 </div>
                 <div class="mt-2">
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" style="border-radius: 0.75rem;" required onfocus="playWelcomeMessage2()">
@@ -74,99 +47,7 @@
         <div class="col"></div>
     </div>
 
-    <script>
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
 
-        const recognition = new webkitSpeechRecognition() 
-        recognition.continuous = true;
-
-        recognition.onresult = (event) => {
-            const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase().replace(/\s/g, '');
-            console.log(transcript)
-            if (transcript.includes('username')) {
-                usernameInput.focus();
-            } else if (transcript.includes('password')) {
-                passwordInput.focus();
-            } else if (transcript.includes('login')) {
-                loginBtn.click();
-            } else if (transcript.includes('back')) {
-              window.location.href = '{% url "log" %}';
-            } else {
-                if (usernameInput === document.activeElement) {
-                    usernameInput.value = transcript.toUpperCase();
-                } else if (passwordInput === document.activeElement) {
-                    passwordInput.value = transcript;
-                }
-            }
-        };
-
-        recognition.onend = () => {
-            recognition.start();
-            
-        };
-
-        window.addEventListener('load', () => {
-            recognition.start();
-        });
-    </script>
 </body>
 
 </html>
-
-
-<!-- <!doctype html>
-<html lang="en">
-  <head>
-    <title>Title</title>
-    Required meta tags
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- Optional JavaScript
-    jQuery first, then Popper.js, then Bootstrap JS
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    Bootstrap CSS
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    {% load static %}
-     <style>
-        body{
-            background-image: url('{% static "images/login.jpg" %}');
-            background-size : cover;
-            }
-        h2{
-           font-family:'Times New Roman', Times, serif;
-        }
-    </style>
-  </head>
-  
-  <body style="margin-top: 200px;">
-        <h2 class="text-center display-1  mb-2 ">Log In</h2>
-      <div class="row ">
-        <div class="col"></div>
-        <div class="col">
-            <form action="" method="post">
-               {% csrf_token %}
-                <div class="mt-2">
-                    <label for="username">Username:</label>
-                    {{form.username.error}}
-                    {{form.username}}
-                </div>
-                <div class="mt-2">
-                    <label for="password">Password:</label>
-                   {{form.password.error}}
-                   {{form.password}}
-                </div>
-                <div class="text-center mt-2">
-                    <input class="btn btn-success " type="submit" value="Login" style="padding: 10px 40px;">
-                </div>
-            </form>
-        </div>
-        <div class="col"></div>
-      </div>
-   
-   
-  </body>
-</html> -->

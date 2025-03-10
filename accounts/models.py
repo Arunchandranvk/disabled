@@ -1,14 +1,107 @@
 from django.db import models
 from django.contrib.auth.models import User,AbstractUser
-# Create your models here.
+import os
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,PermissionsMixin
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
+from django.db.models import Max
+from django.contrib.auth.hashers import make_password
 
 
-class Student(models.Model):
+def user_directory_path(instance, filename):
+    """
+    This function renames the uploaded image file to the username of the user.
+    """
+    extension = filename.split('.')[-1]  
+    new_filename = f"{instance.std_id}.{extension}"  
+    return os.path.join('student image', new_filename) 
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email,password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email ,**extra_fields)
+        if password:
+            # try:
+            #     validate_password(password, user)
+            # except ValidationError as e:
+            #     raise ValueError(f"Password validation error: {e.messages}")
+            user.set_password(password)
+        else:
+            raise ValueError("Password is required")
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email,password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email,password, **extra_fields)
+
+
+class CustUser(AbstractBaseUser,PermissionsMixin):
+    email=models.EmailField(unique=True)
+    is_active=models.BooleanField(default=True)
+    is_staff=models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_faculty=models.BooleanField(default=False)
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ['email']
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
+    
+    def __str__(self):
+        return self.email
+
+class Subject(models.Model):
+    subject_name=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.subject_name
+
+class Faculty(CustUser):
+    name=models.CharField(max_length=100)
+    options=( 
+        ("Male","Male"),
+        ("Female","Female"),
+        ("Others","Others")
+    )
+    gender=models.CharField(max_length=100,choices=options,default="Male")
+    age=models.IntegerField() 
+    exp=models.IntegerField(default=1) 
+    image=models.ImageField(upload_to="Faculty Image",null=True)
+    subject=models.ForeignKey(Subject,on_delete=models.CASCADE)
+    def save(self, *args, **kwargs):
+        if self.pk is None or not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+class Class_Name(models.Model):
+    class_name=models.CharField(unique=True,max_length=100)
+    faculty=models.OneToOneField(Faculty,on_delete=models.CASCADE,related_name='fac_class')
+
+    def __str__(self):
+        return self.class_name
+
+class Student(CustUser):
     std_id=models.CharField(unique=True,max_length=50)
-    first_name=models.CharField(max_length=100,null=True,blank=True)
-    last_name=models.CharField(max_length=100,null=True,blank=True)
-    email=models.EmailField(null=True,blank=True)
-    img=models.FileField(upload_to="student image",null=True,blank=True)
+    student_name=models.CharField(max_length=100,null=True,blank=True)
+    img=models.FileField(upload_to=user_directory_path,null=True,blank=True)
     options=( 
         ("Male","Male"),
         ("Female","Female"),
@@ -16,140 +109,95 @@ class Student(models.Model):
     )
     gender=models.CharField(max_length=100,choices=options,default="Male")
     age=models.PositiveIntegerField(null=True)
-    d_type=(
-        ("Mobility Impairment","Mobility Impairment"), #any full
-        ("Visual Impairment","Visual Impairment"),  #audio
-        ("Hearing Impairment","Hearing Impairment"), #image
-        ("Learning Disability","Learning Disability"), #any
-        ("Autism Spectrum Disorder","Autism Spectrum Disorder"), #any
-        ("Speech Impairment","Speech Impairment"), #any
-        ("Intellectual Disability","Intellectual Disability"), #any
-    )
-    disability=models.CharField(max_length=100,choices=d_type,default="Mobility Impairment")
-    a_techno=(
-        ("Screen Reader","Screen Reader"),
-        ("Communication App","Communication App"),
-        ("Hearing Aids","Hearing Aid"),
-        ("Voice Recognition","Voice Recognition"),
-        ("Wheelchair","Wheelchair"),
-        ("Assistive Learning Tools","Assistive Learning Tools"),
-        ("Text-to-Speech Software","Text-to-Speech Software"),
-        ("Augmentative and Alternative Communication (AAC) Device","Augmentative and Alternative Communication (AAC) Device"),
-    )
-    accesstechnology=models.CharField(max_length=200,choices=a_techno,default="Screen Reader")
-    # score = models.IntegerField(blank=True,null=True)
-    # category = models.CharField(max_length=200,null=True,blank=True)
-    # suggestion=models.TextField(null=True,blank=True) 
-    # video=models.FileField(upload_to='suggested video',null=True,blank=True)
-    # audio=models.FileField(upload_to='suggested audio',null=True,blank=True)
+    class_id=models.ForeignKey(Class_Name,on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.std_id:  
+            last_std_id = Student.objects.aggregate(max_id=Max('std_id'))['max_id']
+            if last_std_id:
+                new_id = int(last_std_id[3:]) + 1
+            else:
+                new_id = 1
+            self.std_id = f"STU{new_id:04d}"  
+        if self.pk is None or not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.std_id 
     
-class CustUser(AbstractUser):
-    student_id=models.ForeignKey(Student,on_delete=models.CASCADE,related_name='cust',null=True)
-    
 
-    
-class Types(models.Model):
-    names=models.CharField(max_length=100)    
-
-    def __str__(self):
-        return self.names
-
-class Question(models.Model):
-    text = models.TextField(null=True,blank=True)
-    type=models.ForeignKey(Types,on_delete=models.CASCADE,null=True,default=1)
-    
-    def __str__(self):
-        return self.text
-
-class QuestionImages(models.Model):
-    files=models.FileField(upload_to='media/files_queimg',null=True,blank=True)
-    type=models.ForeignKey(Types,on_delete=models.CASCADE,null=True,default=3)
+class  Exam(models.Model):
+    faculty=models.ForeignKey(Faculty,on_delete=models.CASCADE,related_name='fac_exams')
+    exam_name=models.CharField(max_length=100)
+    is_active=models.BooleanField(default=False)
+    total_score = models.IntegerField(default=50)
+    duration=models.IntegerField(default=5)
+    date=models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
-       return f" {self.files.name}" if self.type else f"Unknown Type - {self.files.name}"
-
-class QuestionAudio(models.Model):
-    files=models.FileField(upload_to='media/files_queaudio',null=True,blank=True)
-    type=models.ForeignKey(Types,on_delete=models.CASCADE,null=True,default=2)
+        return self.exam_name
+    
+class ExamQuestions(models.Model):
+    exam=models.ForeignKey(Exam,on_delete=models.CASCADE)
+    question=models.TextField()
+    option_1=models.CharField(max_length=200)
+    option_2=models.CharField(max_length=200)
+    option_3=models.CharField(max_length=200)
+    option_4=models.CharField(max_length=200)
+    answer=models.CharField(max_length=200)
+    created_at=models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
-       return f" {self.files.name}" if self.type else f"Unknown Type - {self.files.name}"
+        return self.question
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    text = models.CharField(max_length=255,null=True,blank=True)
-    is_correct = models.BooleanField(default=False)
+
+class AssignExam(models.Model):
+    faculty=models.ForeignKey(Faculty,on_delete=models.CASCADE,related_name='assign_class')
+    exam=models.ForeignKey(Exam,on_delete=models.CASCADE)
+    class_id=models.ForeignKey(Class_Name,on_delete=models.CASCADE)
     
-class AnswerImages(models.Model):
-    question = models.ForeignKey(QuestionImages, on_delete=models.CASCADE)
-    fileans=models.FileField(upload_to='media/files_queimageans',null=True,blank=True)
-    is_correct = models.BooleanField(default=False)
-    
-class AnswerAudio(models.Model):
-    question = models.ForeignKey(QuestionAudio, on_delete=models.CASCADE)
-    fileans=models.FileField(upload_to='media/files_queaudioans',null=True,blank=True)
-    is_correct = models.BooleanField(default=False)
-    
+
+    def __str__(self):
+        return self.exam.exam_name
+
+
+class ExamResult(models.Model):
+    assignedexam=models.ForeignKey(AssignExam,on_delete=models.CASCADE)
+    student=models.ForeignKey(Student,on_delete=models.CASCADE)
+    question=models.ForeignKey(ExamQuestions,on_delete=models.CASCADE,related_name='exam_ques')
+    ans=models.CharField(max_length=200,null=True,blank=True)
+    is_correct=models.BooleanField(null=True,blank=True,default=False)
+
+    def __str__(self):
+        return f"{self.student.student_name} - {self.assignedexam.exam.exam_name}"
    
-   
-    
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name     
     
 class Categorys(models.Model):
     name = models.CharField(max_length=255)
+    suggestion = models.TextField(null=True)
 
     def __str__(self):
         return self.name     
 
-class StudentAnswer(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE,null=True)
-
-   
-
-class StudentAnswerImage(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    question = models.ForeignKey(QuestionImages, on_delete=models.CASCADE)
-    answer = models.ForeignKey(AnswerImages, on_delete=models.CASCADE,null=True)
-
-
-class StudentAnswerAudio(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    question = models.ForeignKey(QuestionAudio, on_delete=models.CASCADE)
-    answer = models.ForeignKey(AnswerAudio, on_delete=models.CASCADE,null=True)
-
-    
 
 class ScoreModel(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    assignedexam=models.ForeignKey(AssignExam,on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='score_student')
     score = models.IntegerField(blank=True,null=True)
     cat = models.ForeignKey(Categorys,on_delete=models.CASCADE,null=True,blank=True)
-    suggestion=models.TextField(null=True,blank=True) 
-    video=models.FileField(upload_to='suggested video',null=True,blank=True)
-    audio=models.FileField(upload_to='suggested audio',null=True,blank=True)
-  
+
+
+
     
-class Suggestion(models.Model):
-     suggestion=models.TextField(null=True)  
-     cat=models.ForeignKey(Categorys,on_delete=models.CASCADE,related_name='sugg')  
-     video=models.FileField(upload_to='suggested video',null=True)
-     audio=models.FileField(upload_to='suggested audio',null=True)
-     thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
-     
-     def __str__(self):
-        return self.cat.name
-     
-# class Assignment(models.Model): 
-#     student=models.ForeignKey(Student,on_delete=models.CASCADE,related_name='stu_ag')
-#     test=models.ForeignKey(Question,on_delete=models.CASCADE,related_name='tes_ag')     
+class HistoryExam(models.Model):
+    assignedexam=models.ForeignKey(AssignExam,on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='score_student_history')
+    score = models.IntegerField(blank=True,null=True)
+    cat = models.ForeignKey(Categorys,on_delete=models.CASCADE,null=True,blank=True)
+
+        
 
 
 

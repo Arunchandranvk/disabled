@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice-Enabled Exam</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .timer {
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .timer:hover {
+            transform: scale(1.05);
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 2rem;
+            padding: 2rem;
+        }
+
+        .question-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .question-card h5 {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .form-check {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .form-check:hover {
+            background: #f1f5f9;
+        }
+
+        .form-check label {
+            font-weight: 500;
+            color: #334155;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        .form-check input[type="radio"] {
+            transform: scale(1.2);
+        }
+
+        .voice-status {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .voice-status:hover {
+            transform: scale(1.1);
+        }
+
+        .voice-status i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            background: #ef4444;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Progress indicator */
+        .progress-wrapper {
+            position: fixed;
+            top: 90px;
+            left: 30px;
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            z-index: 1000;
+        }
+
+        .progress-text {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(19,19,53,1) 0%, rgba(94,94,147,1) 0%, rgba(1,239,236,1) 100%);">
+        <h2 class="mr-2 ml-5 text-white">{{ exam.exam_name }}</h2>
+        <div class="timer">
+            <div id="timer">{{ exam.duration }}:00</div>
+        </div>
+    </nav>
+    <div class="notification" id="timeWarning">
+        Warning: 5 minutes remaining!
+    </div>
+
+
+    <div class="container mt-5 pt-5">
+        <form id="examForm" method="POST">
+            {% csrf_token %}
+            {% for question in questions %}
+            <div class="card p-4 mb-4 question-card {% if forloop.first %}active{% endif %}" 
+                 id="question-{{ forloop.counter }}" 
+                 data-question-number="{{ forloop.counter }}">
+                <h5>Question {{ forloop.counter }}: {{ question.question }}</h5>
+                <div class="form-check mt-3">
+                    <input type="radio" name="q{{ question.id }}" value="{{ question.option_1 }}" id="q{{ question.id }}_1">
+                    <label for="q{{ question.id }}_1">A) {{ question.option_1 }}</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" name="q{{ question.id }}" value="{{ question.option_2 }}" id="q{{ question.id }}_2">
+                    <label for="q{{ question.id }}_2">B) {{ question.option_2 }}</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" name="q{{ question.id }}" value="{{ question.option_3 }}" id="q{{ question.id }}_3">
+                    <label for="q{{ question.id }}_3">C) {{ question.option_3 }}</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" name="q{{ question.id }}" value="{{ question.option_4 }}" id="q{{ question.id }}_4">
+                    <label for="q{{ question.id }}_4">D) {{ question.option_4 }}</label>
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary mb-5">Submit Exam</button>
+        </form>
+    </div>
+
+    <div class="voice-status bg-success" id="voiceStatus">
+        <i class="fas fa-microphone text-white"></i>
+    </div>
+    
+    <script>
+        const recognition = new webkitSpeechRecognition();
+        const synthesis = window.speechSynthesis;
+        let currentQuestionIndex = 1;
+        const totalQuestions = {{ questions|length }};
+        const examDuration = {{ exam.duration }};
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            synthesis.speak(utterance);
+        }
+
+        function showNotification(message, duration) {
+            const notification = document.getElementById('timeWarning');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
+
+        function readCurrentQuestion() {
+            const currentQuestion = document.querySelector(`#question-${currentQuestionIndex}`);
+            const questionText = currentQuestion.querySelector('h5').textContent;
+            const options = Array.from(currentQuestion.querySelectorAll('.form-check label'))
+                .map(label => label.textContent).join('. ');
+            speak(`${questionText}. The options are: ${options}`);
+        }
+
+        function navigateQuestion(direction) {
+            const currentCard = document.querySelector('.question-card.active');
+            currentCard.classList.remove('active');
+            
+            if (direction === 'next' && currentQuestionIndex < totalQuestions) {
+                currentQuestionIndex++;
+            } else if (direction === 'previous' && currentQuestionIndex > 1) {
+                currentQuestionIndex--;
+            }
+            
+            const nextCard = document.querySelector(`#question-${currentQuestionIndex}`);
+            nextCard.classList.add('active');
+            readCurrentQuestion();
+        }
+
+        function selectOption(option) {
+            const currentQuestion = document.querySelector('.question-card.active');
+            const optionMap = { 'a': 1, 'b': 2, 'c': 3, 'd': 4 };
+            const optionNum = optionMap[option.toLowerCase()];
+            
+            if (optionNum) {
+                const inputs = currentQuestion.querySelectorAll('input[type="radio"]');
+                if (inputs[optionNum - 1]) {
+                    inputs[optionNum - 1].checked = true;
+                    speak(`Option ${option} selected`);
+                }
+            }
+        }
+
+        // Rest of the script remains same except recognition.onresult
+        recognition.onresult = function(event) {
+            const result = event.results[event.results.length - 1];
+            if (result.isFinal) {
+                const command = result[0].transcript.toLowerCase();
+                console.log("Command:", command);
+                
+                if (command.includes('next question')) {
+                    navigateQuestion('next');
+                } else if (command.includes('previous question')) {
+                    navigateQuestion('previous');
+                } else if (command.includes('option')) {
+                    const match = command.match(/option ([abcd])/i);
+                    if (match) selectOption(match[1]);
+                } else if (command.includes('read')) {
+                    readCurrentQuestion();
+                } else if (command.includes('submit')) {
+                    document.getElementById('examForm').submit();
+                }
+            }
+        };
+
+        window.onload = function() {
+            // Announce total exam time and number of questions
+            speak(`Welcome to the exam. You have ${examDuration} minutes to complete ${totalQuestions} questions.`);
+            
+            // Start timer with duration from database
+            startTimer(examDuration);
+            
+            recognition.start();
+            
+            // Read first question after initial announcement
+            setTimeout(readCurrentQuestion, 5000);
+        };
+
+        recognition.onerror = function(event) {
+            document.getElementById('voiceStatus').classList.remove('bg-success');
+            document.getElementById('voiceStatus').classList.add('bg-danger');
+        };
+
+        recognition.onend = function() {
+            recognition.start();
+        };
+
+        function startTimer(duration) {
+            let timer = duration * 60; // Convert minutes to seconds
+            const timerDisplay = document.getElementById('timer');
+            
+            let countdown = setInterval(function () {
+                let minutes = parseInt(timer / 60, 10);
+                let seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                timerDisplay.textContent = minutes + ":" + seconds;
+
+                // Warning at 3 minutes remaining
+                if (timer === 180) {
+                    speak("Warning: 3 minutes remaining in the exam");
+                    showNotification("Warning: 3 minutes remaining!", 10000);
+                }
+                // Warning at 1 minute remaining
+                else if (timer === 60) {
+                    speak("Warning: Only 1 minute remaining");
+                    showNotification("Warning: 1 minute remaining!", 10000);
+                }
+
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    speak("Time's up. Your exam is being submitted.");
+                    showNotification("Time's up! Submitting exam...", 3000);
+                    setTimeout(() => {
+                        document.getElementById('examForm').submit();
+                    }, 2000);
+                }
+            }, 1000);
+        }
+
+
+        window.addEventListener('beforeunload', () => {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+        });
+        document.getElementById('examForm').onsubmit = function(e) {
+            e.preventDefault();
+            speak("Exam submitted successfully. Thank you for taking the test.");
+            showNotification("Exam submitted successfully!", 3000);
+            setTimeout(() => {
+                this.submit();
+            }, 2000);
+        };
+    </script>
+</body>
+</html>

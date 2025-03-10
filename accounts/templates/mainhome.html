@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Disabled</title>
+    <title>BeyondBarriers - Home</title>
     {% load static %}
     <!-- <link rel="icon" type="image/icon type" href="https://www.bartehrman.com/wp-content/uploads/Bart-Ehrman-Website-Favicon.png"> -->
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
 
   <script>
     function playWelcomeMessage() {
-      var welcomeMessage = new SpeechSynthesisUtterance('Welcome to Educational Website For Differently Abled Students');
+      var welcomeMessage = new SpeechSynthesisUtterance('Welcome to BeyondBarriers');
       window.speechSynthesis.speak(welcomeMessage);
       }
   </script>
@@ -335,19 +335,19 @@ div #main{
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     <h3 id="bt" class="mr-1 ml-4 btn nav-link" style="font-family:fantasy;">
                         <a href="http://127.0.0.1:8000/admin/" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Admin</a>
                     </h3>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item">
                     <h3 id="bt" class="mr-1 ml-4 btn nav-link" style="font-family:fantasy;">
-                        <a href="{% url 'login' %}" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Faculty</a>
+                        <a href="{% url 'login' %}" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Admin/Faculty</a>
                     </h3>
                 </li>
                 <li class="nav-item">
                     <h3 id="bt" class="mr-1 ml-4 btn nav-link" style="font-family:fantasy;">
-                        <a onclick="log()" href="{% url 'login' %}" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Student</a>
+                        <a onclick="log()" href="{% url 'face_login' %}" style="text-align: left; letter-spacing: 2px;text-decoration: none;color: black;">Student</a>
                     </h3>
                 </li>
             </ul>
@@ -485,18 +485,14 @@ div #main{
   recognition.onresult = function(event) {
     var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
     console.log("result",result);
-     if (result.includes('login')) {
+     if (result.includes('go to login')) {
         // Redirect to the home page
         log();
     }
-   
-    
-  
-   
 };
 
  function log(){
-  window.location.href = '{% url "login" %}';
+  window.location.href = '{% url "face_login" %}';
  }
  recognition.onerror = function(event) {
       console.error('Speech recognition error:', event.error);

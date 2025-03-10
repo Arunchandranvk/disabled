@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from accounts.views import LoginView,MainHome
+from accounts.views import LoginViewFaculty,MainHome
 from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import custom_logout
@@ -30,6 +30,6 @@ urlpatterns = [
     path('account/',include("accounts.urls")),
     path('home/',include("home.urls")),
     path('student/',include("student_app.urls")),
-    path('game/',include("games.urls")),
+    path('',include("adminpage.urls")),
     
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
