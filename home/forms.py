@@ -15,7 +15,7 @@ class MessageForm(forms.ModelForm):
 class ExamNameForm(forms.ModelForm):
     class Meta:
         model=Exam
-        fields=['faculty','exam_name']
+        fields=['faculty','exam_name','total_score','duration']
 
 class QuestionsForm(forms.ModelForm):
     class Meta:

@@ -41,6 +41,7 @@
                 <div class="form-group">
                 <input type="text" name="faculty" value="{{request.user.id}}" hidden>
                  <input type="text" name="exam_name" class="form-control" placeholder="Exam">
+                 <input type="text" name="total_score" class="form-control mt-3 " placeholder="Total score">
                  <input type="text" name="duration" class="form-control mt-3 " placeholder="Time">
                   {% if field.errors %}
                     {% for error in field.errors %}
@@ -61,8 +62,9 @@
           <table class="table">
             <thead> 
               <tr>
-                <th>
-                  Exam Name</th>
+                <th>Exam Name</th>
+                <th>Total Score</th>
+                <th>Duration</th>
                 <th>Created Date</th>
                 <th>Actions</th>
               </tr>
@@ -71,6 +73,8 @@
               {% for exam in exams %}
                 <tr>
                   <td><a href="{% url 'question' exam.id %}">{{ exam.exam_name }}</a></td>
+                  <td>{{ exam.total_score}}</td>
+                  <td>{{ exam.duration }}</td>
                   <td>{{ exam.date|date:"M d, Y" }}</td>
                   <td>
                     <a href="{% url 'assign-exam' exam.id %}" class="btn btn-sm btn-outline-primary">Assign</a>
