@@ -12,15 +12,13 @@ from home.models import *
 import os
 
 
-
 class ExamDetailView(View):
     def get(self, request, exam_id):
         exam = Exam.objects.get(id=exam_id)
         if not exam.is_active:
             return redirect('exams')
-            
+
         questions = ExamQuestions.objects.filter(exam=exam)
-        print(questions)
         context = {
             'exam': exam,
             'questions': questions,
@@ -28,23 +26,22 @@ class ExamDetailView(View):
         return render(request, 'main_exam.html', context)
 
     def post(self, request, exam_id):
+        # Get exam and related information
         exam = Exam.objects.get(id=exam_id)
         stu = request.user
         questions = ExamQuestions.objects.filter(exam=exam)
         count = questions.count()
         assigned_exam = AssignExam.objects.get(exam=exam)
-        student = get_object_or_404(Student,id=stu.id)
-        total = exam.total_score
+        student = get_object_or_404(Student, id=stu.id)
+        total_score = exam.total_score
         score = 0
-        print(questions)
+
         for question in questions:
-            
             answer = request.POST.get(f'q{question.id}')
             is_correct = answer == question.answer
-            
+
             if is_correct:
-                score += total/count
-                
+                score += total_score / count 
             ExamResult.objects.get_or_create(
                 assignedexam=assigned_exam,
                 student=student,
@@ -52,80 +49,21 @@ class ExamDetailView(View):
                 ans=answer,
                 is_correct=is_correct
             )
-        exce = exam.total_score/5
-        if score <= exce:
-            cat = Categorys.objects.get(id=1)
-            ScoreModel.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-            HistoryExam.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-
-        elif score <= (exce*2):
-            cat = Categorys.objects.get(id=2)
-            ScoreModel.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-            HistoryExam.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-        elif score <= (exce*3):
-            cat = Categorys.objects.get(id=3)
-            ScoreModel.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-            HistoryExam.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-        elif score <= (exce*4):
-            cat = Categorys.objects.get(id=4)
-            ScoreModel.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-            HistoryExam.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-        elif score <= (exce*5):
-            cat = Categorys.objects.get(id=5)
-            ScoreModel.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,
-                cat=cat
-            )
-            HistoryExam.objects.get_or_create(
-                assignedexam=assigned_exam,
-                student=student,
-                score=score,    
-                cat=cat
-            )
-
-
+        exce = total_score / 5
+        category_id = min(int(score // exce) + 1, 5) 
+        cat = Categorys.objects.get(id=category_id)
+        ScoreModel.objects.get_or_create(
+            assignedexam=assigned_exam,
+            student=student,
+            score=score,
+            cat=cat
+        )
+        HistoryExam.objects.get_or_create(
+            assignedexam=assigned_exam,
+            student=student,
+            score=score,
+            cat=cat
+        )
         return redirect('res', pk=exam.id)
 
 class ChatBotView(TemplateView):

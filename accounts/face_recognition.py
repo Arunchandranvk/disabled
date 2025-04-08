@@ -79,14 +79,10 @@ class FaceRecognition:
         :param image_path: Path to the input image
         :return: Username if authenticated, None otherwise
         """
-        # Detect and crop input face
         input_face = self.detect_and_crop_face(image_path)
         if input_face is None:
             return None
-
-        # Store potential matches
         matches = []
-
         # Check against all known faces
         for filename in os.listdir(self.known_faces_dir):
             # Skip any non-image files
