@@ -99,7 +99,7 @@ class FaceRecognition:
                     print(f"Comparing with {filename}: Similarity = {similarity}")
 
                     # Adjust threshold as needed
-                    if similarity > 0.4:
+                    if similarity > 0.1:
                         # Extract username from filename
                         username = filename.split('_')[0]
                         matches.append((username, similarity))

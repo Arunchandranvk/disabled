@@ -114,7 +114,7 @@
         </h2>
       </div>
 
-      <div style="margin-left: 55%">
+      <div style="margin-left: 45%">
         <h4 class="mr-2 ml-5">
           <a
             href="{% url 'noteview' %}"
@@ -126,6 +126,21 @@
               color: white;
             "
             >Explore More
+          </a>
+        </h4>
+      </div>
+      <div >
+        <h4 class="mr-2 ml-5">
+          <a
+            href="{% url 'bot' %}"
+            style="
+              text-align: left;
+              letter-spacing: 2px;
+              font-family: fantasy;
+              text-decoration: none;
+              color: white;
+            "
+            >Chatbot
           </a>
         </h4>
       </div>
@@ -428,6 +443,9 @@
         } else if (result.includes("logout")) {
           // Redirect to the home page
           window.location.href = '{% url "logout" %}';
+        } else if (result.includes("go to chat")) {
+          // Redirect to the home page
+          window.location.href = '{% url "bot" %}';
         } else if (result.includes("go to notes")) {
           // Redirect to the home page
           window.location.href = '{% url "noteview" %}';

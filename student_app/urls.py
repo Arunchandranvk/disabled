@@ -21,6 +21,6 @@ urlpatterns =[
     path('noteview/',NotesListView.as_view(),name='noteview'),
     path('bot/',ChatBotView.as_view(),name='bot'),
     path('messagesview',MessageGetView.as_view(),name='msgview'),
-
+    path('chatbot/',ChatbotView.as_view(),name='bot'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
